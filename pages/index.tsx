@@ -4,6 +4,8 @@ import { getAllRooms } from '../data/room';
 import { Room, RoomPermissionType } from '../types/app';
 import RoomList from '../components/Rooms';
 import Auth from '../components/Auth';
+import Hero from '../components/Hero';
+import Calculator from '../components/Calculator';
 import { useUser } from '../data/auth';
 import { Header, Loading } from '../components/Layout';
 
@@ -25,6 +27,9 @@ const Home: NextPage<IProps> = ({ rooms }) => {
       </Head>
 
       <Header />
+      <Hero />
+
+      <Calculator />
 
       <main className='max-w-lg mx-auto py-5 relative space-y-5'>
         {!!user && !profile && <Loading />}

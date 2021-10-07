@@ -5,7 +5,7 @@ import { UserContextProvider } from '../data/auth';
 import { TimeProvider } from '../data/time';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  usePosthog()
+  // usePosthog()
 
   return (
     <TimeProvider>

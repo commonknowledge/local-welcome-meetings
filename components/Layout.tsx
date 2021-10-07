@@ -15,6 +15,13 @@ export function Header () {
         <Link href='/' passHref>
           <span className='inline-block cursor-pointer'><Logo /></span>
         </Link>
+
+        <div className='space-x-4 text-right'>
+        <Link href='/courses' passHref>
+          <span className='cursor-pointer opacity-80 bg-adhdDarkPurple rounded-lg p-2'>Our Courses</span>
+        </Link>
+        </div>
+          
         <div className='space-x-4 text-right'>
           {room && <span className='font-semibold text-lg'>{room.name}</span>}
           {isLoggedIn && <span className='cursor-pointer opacity-80 bg-adhdDarkPurple rounded-lg p-2' onClick={signOut}>Sign out</span>}
