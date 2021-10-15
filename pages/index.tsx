@@ -1,50 +1,45 @@
-import type { NextPage, GetServerSideProps } from 'next'
-import Head from 'next/head'
-import { getAllRooms } from '../data/room';
-import { Room, RoomPermissionType } from '../types/app';
-import RoomList from '../components/Rooms';
-import Auth from '../components/Auth';
-import { useUser } from '../data/auth';
-import { Header, Loading } from '../components/Layout';
+import NewHeader from "../components/Layout";
 
-type IProps = {
-  rooms: Room[]
-}
-
-type IQuery = {}
-
-const Home: NextPage<IProps> = ({ rooms }) => {
-  const { user, profile, permissions } = useUser()
-
+export default function Home() {
   return (
-    <div className='bg-gray-100 min-h-screen w-screen'>
-      <Head>
-        <title>ADHD Together</title>
-        <meta name="description" content="Session rooms for ADHD Together" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <Header />
-
-      <main className='max-w-lg mx-auto py-5 relative space-y-5'>
-        {!!user && !profile && <Loading />}
-        <div>
-          {!!profile && <RoomList key='rooms' rooms={rooms.filter(r => {
-            return profile.canManageShifts || permissions.some(p => p.type === RoomPermissionType.Lead && p.roomId === r.id)
-          })} />}
+    <>
+      <NewHeader />
+      <div className="relative bg-white overflow-hidden">
+        <div className="max-w-10xl mx-auto">
+          <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+            <main className="mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 mt-16  lg:px-8 mt-28">
+              <div className="mt-6 sm:text-center lg:text-left">
+                <h1 className="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+                  <span className="block xl:inline">ADHD Together</span>{" "}
+                </h1>
+                <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+                  ADHD Together is a place free from expectations where you can
+                  be yourself, connect and feel supported.
+                </p>
+                <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                  <div className="rounded-md shadow">
+                    <a
+                      href="https://brandonjackson.typeform.com/to/JFz8XJjf"
+                      rel="noreferrer noopener"
+                      target="_blank"
+                      className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-adhdDarkPurple hover:bg-adhdDarkPurple md:py-4 md:text-lg md:px-10"
+                    >
+                      Get started
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
         </div>
-        <Auth key='auth' />
-      </main>
-    </div>
-  )
+        <div className="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+          <img
+            className="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full"
+            src="https://images.unsplash.com/photo-1616587894289-86480e533129?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+            alt=""
+          />
+        </div>
+      </div>
+    </>
+  );
 }
-
-export const getServerSideProps: GetServerSideProps<IProps, IQuery> = async (context) => {
-  return {
-    props: {
-      rooms: await getAllRooms()
-    }
-  }
-}
-
-export default Home
