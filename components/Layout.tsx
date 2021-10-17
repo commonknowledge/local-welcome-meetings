@@ -25,6 +25,25 @@ export function Header () {
   )
 }
 
+export function HeroHeader() {
+  const { isLoggedIn, signOut } = useUser()
+  const router = useRouter()
+
+  return (
+    <header className='bg-transparent p-3 sm:p-4 text-adhdBlue'>
+      <div className={`flex flex-row justify-between items-center max-w-md mx-auto`}>
+        <Link href='/' passHref>
+          <span className='inline-block cursor-pointer'><Logo /></span>
+        </Link>
+        <div className='space-x-4 text-right'>
+          <span className='cursor-pointer bg-adhdDarkPurple rounded-lg p-2' onClick={() => router.push('/course')}>Our courses</span>
+          {!isLoggedIn && <span className='cursor-pointer bg-adhdDarkPurple rounded-lg p-2' onClick={() => router.push('/user')}>Sign in</span>}
+        </div>
+      </div>
+    </header>
+  )
+}
+
 export function Loading () {
   return <div className='flex flex-col justify-content items-center align-middle content-center text-center w-full absolute top-0 left-0 h-full'>
     <div className='text-lg font-semibold'>Loading...</div>
