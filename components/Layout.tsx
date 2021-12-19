@@ -14,11 +14,19 @@ export function Header() {
   const router = useRouter()
 
   return (
-    <header className='bg-adhdPurple p-3 sm:p-4 text-adhdBlue'>
-      <div className={`flex flex-row justify-between items-center max-w-md mx-auto`}>
-        <Link href='/'>
-          <span className='inline-block cursor-pointer'><Logo /></span>
-        </Link>
+    <header className='bg-adhdPurple p-3 sm:p-4 text-adhdBlue' style={{height: HeaderHeight}}>
+      <div className={`flex flex-row justify-between items-center max-w-4xl mx-auto`}>
+        <div style={{display: 'flex', flexDirection: 'row', columnGap: 40, alignItems: 'center'}}>
+          <Link href='/'>
+            <span className='inline-block cursor-pointer'><Logo /></span>
+          </Link>
+          <Link href='/courses' passHref>
+            <span className='inline-block cursor-pointer'>Our Courses</span>
+          </Link>
+          <Link href='/pricing' passHref>
+            <span className='inline-block cursor-pointer'>Pricing</span>
+          </Link>
+        </div>
         <div className='space-x-4 text-right'>
           {room && <span className='font-semibold text-lg'>{room.name}</span>}
           {isLoggedIn && (
@@ -92,3 +100,5 @@ export function MenuLink(props: any) {
     </Link>
   )
 }
+
+export const HeaderHeight = 120
