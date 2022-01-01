@@ -686,8 +686,11 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             content: string;
+            /** Format: character varying */
             content_type: string;
+            /** Format: character varying */
             uri: string;
           };
         };
@@ -707,7 +710,9 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             field: string;
+            /** Format: character varying */
             value: string;
           };
         };
@@ -727,8 +732,11 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             content: string;
+            /** Format: character varying */
             content_type: string;
+            /** Format: character varying */
             uri: string;
           };
         };
@@ -748,7 +756,9 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             curlopt: string;
+            /** Format: character varying */
             value: string;
           };
         };
@@ -768,6 +778,7 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             uri: string;
           };
         };
@@ -787,6 +798,7 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: public.http_request */
             request: string;
           };
         };
@@ -806,6 +818,7 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             uri: string;
           };
         };
@@ -825,6 +838,7 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             uri: string;
           };
         };
@@ -861,8 +875,11 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             content: string;
+            /** Format: character varying */
             content_type: string;
+            /** Format: character varying */
             uri: string;
           };
         };
@@ -882,6 +899,7 @@ export interface paths {
       parameters: {
         body: {
           args: {
+            /** Format: character varying */
             string: string;
           };
         };
@@ -900,217 +918,379 @@ export interface paths {
 
 export interface definitions {
   profile: {
+    /**
+     * Format: timestamp with time zone
+     * @default timezone('utc'::text, now())
+     */
     insertedAt: string;
+    /**
+     * Format: timestamp with time zone
+     * @default timezone('utc'::text, now())
+     */
     updatedAt: string;
+    /** Format: boolean */
     canLeadSessions: boolean;
+    /** Format: text */
     firstName?: string;
+    /** Format: text */
     lastName?: string;
+    /** Format: uuid */
     userId?: string;
+    /** Format: boolean */
     canManageShifts: boolean;
+    /** Format: text */
     email: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
+    /** Format: text */
     hubspotContactId?: string;
   };
   room: {
-    /** Human readable name. */
+    /**
+     * Format: text
+     * @description Human readable name.
+     */
     name: string;
-    /** URL path to access this room. */
+    /**
+     * Format: text
+     * @description URL path to access this room.
+     */
     slug: string;
-    /** Notion property. */
+    /**
+     * Format: text
+     * @description Notion property.
+     * @default ADHD Together Group Session - Agenda 1
+     */
     slideshowName: string;
-    /** Notion ID. */
+    /**
+     * Format: integer
+     * @description Notion ID.
+     */
     currentSlideIndex: number;
+    /**
+     * Format: text
+     * @default stopped
+     */
     timerState?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     timerStartTime: string;
+    /** Format: bigint */
     timerDuration: number;
+    /** Format: text */
     wherebyMeetingId?: string;
+    /** Format: timestamp with time zone */
     wherebyStartDate?: string;
+    /** Format: timestamp with time zone */
     wherebyEndDate?: string;
+    /** Format: text */
     wherebyRoomUrl?: string;
+    /** Format: text */
     wherebyHostRoomUrl?: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
+    /** Format: text */
     hubspotLeaderListId?: string;
+    /**
+     * Format: timestamp with time zone
+     * @default timezone('utc'::text, now())
+     */
     updatedAt: string;
   };
   roompermission: {
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
-    /** member | leader | manager */
+    /**
+     * Format: text
+     * @description member | leader | manager
+     */
     type: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updatedAt: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `profile.id`.<fk table='profile' column='id'/>
      */
     profileId: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `room.id`.<fk table='room' column='id'/>
      */
     roomId: string;
   };
   shiftallocation: {
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `shiftpattern.id`.<fk table='shiftpattern' column='id'/>
      */
     shiftPatternId: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `profile.id`.<fk table='profile' column='id'/>
      */
     profileId: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updatedAt: string;
   };
   shiftexception: {
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `shiftpattern.id`.<fk table='shiftpattern' column='id'/>
      */
     shiftPatternId: string;
+    /** Format: timestamp with time zone */
     date: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `profile.id`.<fk table='profile' column='id'/>
      */
     profileId: string;
-    /** drop_out or drop_in */
+    /**
+     * Format: text
+     * @description drop_out or drop_in
+     */
     type: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     lastUpdated: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `shiftallocation.id`.<fk table='shiftallocation' column='id'/>
      */
     shiftAllocationId?: string;
   };
   shiftpattern: {
+    /** Format: text */
     name: string;
+    /**
+     * Format: integer
+     * @default 1
+     */
     required_people: number;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Primary Key.<pk/>
+     * @default extensions.uuid_generate_v4()
      */
     id: string;
     /**
-     * Note:
+     * Format: uuid
+     * @description Note:
      * This is a Foreign Key to `room.id`.<fk table='room' column='id'/>
      */
     roomId: string;
+    /**
+     * Format: timestamp with time zone
+     * @default now()
+     */
     updatedAt: string;
+    /** Format: text */
     cron: string;
+    /** Format: boolean */
     allowOneOffAllocations: boolean;
+    /** Format: text */
     cronTimezone: string;
   };
 }
 
 export interface parameters {
-  /** Preference */
+  /** @description Preference */
   preferParams: "params=single-object";
-  /** Preference */
+  /** @description Preference */
   preferReturn: "return=representation" | "return=minimal" | "return=none";
-  /** Preference */
+  /** @description Preference */
   preferCount: "count=none";
-  /** Filtering Columns */
+  /** @description Filtering Columns */
   select: string;
-  /** On Conflict */
+  /** @description On Conflict */
   on_conflict: string;
-  /** Ordering */
+  /** @description Ordering */
   order: string;
-  /** Limiting and Pagination */
+  /** @description Limiting and Pagination */
   range: string;
-  /** Limiting and Pagination */
+  /**
+   * @description Limiting and Pagination
+   * @default items
+   */
   rangeUnit: string;
-  /** Limiting and Pagination */
+  /** @description Limiting and Pagination */
   offset: string;
-  /** Limiting and Pagination */
+  /** @description Limiting and Pagination */
   limit: string;
-  /** profile */
+  /** @description profile */
   "body.profile": definitions["profile"];
+  /** Format: timestamp with time zone */
   "rowFilter.profile.insertedAt": string;
+  /** Format: timestamp with time zone */
   "rowFilter.profile.updatedAt": string;
+  /** Format: boolean */
   "rowFilter.profile.canLeadSessions": string;
+  /** Format: text */
   "rowFilter.profile.firstName": string;
+  /** Format: text */
   "rowFilter.profile.lastName": string;
+  /** Format: uuid */
   "rowFilter.profile.userId": string;
+  /** Format: boolean */
   "rowFilter.profile.canManageShifts": string;
+  /** Format: text */
   "rowFilter.profile.email": string;
+  /** Format: uuid */
   "rowFilter.profile.id": string;
+  /** Format: text */
   "rowFilter.profile.hubspotContactId": string;
-  /** room */
+  /** @description room */
   "body.room": definitions["room"];
-  /** Human readable name. */
+  /**
+   * Format: text
+   * @description Human readable name.
+   */
   "rowFilter.room.name": string;
-  /** URL path to access this room. */
+  /**
+   * Format: text
+   * @description URL path to access this room.
+   */
   "rowFilter.room.slug": string;
-  /** Notion property. */
+  /**
+   * Format: text
+   * @description Notion property.
+   */
   "rowFilter.room.slideshowName": string;
-  /** Notion ID. */
+  /**
+   * Format: integer
+   * @description Notion ID.
+   */
   "rowFilter.room.currentSlideIndex": string;
+  /** Format: text */
   "rowFilter.room.timerState": string;
+  /** Format: timestamp with time zone */
   "rowFilter.room.timerStartTime": string;
+  /** Format: bigint */
   "rowFilter.room.timerDuration": string;
+  /** Format: text */
   "rowFilter.room.wherebyMeetingId": string;
+  /** Format: timestamp with time zone */
   "rowFilter.room.wherebyStartDate": string;
+  /** Format: timestamp with time zone */
   "rowFilter.room.wherebyEndDate": string;
+  /** Format: text */
   "rowFilter.room.wherebyRoomUrl": string;
+  /** Format: text */
   "rowFilter.room.wherebyHostRoomUrl": string;
+  /** Format: uuid */
   "rowFilter.room.id": string;
+  /** Format: text */
   "rowFilter.room.hubspotLeaderListId": string;
+  /** Format: timestamp with time zone */
   "rowFilter.room.updatedAt": string;
-  /** roompermission */
+  /** @description roompermission */
   "body.roompermission": definitions["roompermission"];
+  /** Format: uuid */
   "rowFilter.roompermission.id": string;
-  /** member | leader | manager */
+  /**
+   * Format: text
+   * @description member | leader | manager
+   */
   "rowFilter.roompermission.type": string;
+  /** Format: timestamp with time zone */
   "rowFilter.roompermission.updatedAt": string;
+  /** Format: uuid */
   "rowFilter.roompermission.profileId": string;
+  /** Format: uuid */
   "rowFilter.roompermission.roomId": string;
-  /** shiftallocation */
+  /** @description shiftallocation */
   "body.shiftallocation": definitions["shiftallocation"];
+  /** Format: uuid */
   "rowFilter.shiftallocation.id": string;
+  /** Format: uuid */
   "rowFilter.shiftallocation.shiftPatternId": string;
+  /** Format: uuid */
   "rowFilter.shiftallocation.profileId": string;
+  /** Format: timestamp with time zone */
   "rowFilter.shiftallocation.updatedAt": string;
-  /** shiftexception */
+  /** @description shiftexception */
   "body.shiftexception": definitions["shiftexception"];
+  /** Format: uuid */
   "rowFilter.shiftexception.id": string;
+  /** Format: uuid */
   "rowFilter.shiftexception.shiftPatternId": string;
+  /** Format: timestamp with time zone */
   "rowFilter.shiftexception.date": string;
+  /** Format: uuid */
   "rowFilter.shiftexception.profileId": string;
-  /** drop_out or drop_in */
+  /**
+   * Format: text
+   * @description drop_out or drop_in
+   */
   "rowFilter.shiftexception.type": string;
+  /** Format: timestamp with time zone */
   "rowFilter.shiftexception.lastUpdated": string;
+  /** Format: uuid */
   "rowFilter.shiftexception.shiftAllocationId": string;
-  /** shiftpattern */
+  /** @description shiftpattern */
   "body.shiftpattern": definitions["shiftpattern"];
+  /** Format: text */
   "rowFilter.shiftpattern.name": string;
+  /** Format: integer */
   "rowFilter.shiftpattern.required_people": string;
+  /** Format: uuid */
   "rowFilter.shiftpattern.id": string;
+  /** Format: uuid */
   "rowFilter.shiftpattern.roomId": string;
+  /** Format: timestamp with time zone */
   "rowFilter.shiftpattern.updatedAt": string;
+  /** Format: text */
   "rowFilter.shiftpattern.cron": string;
+  /** Format: boolean */
   "rowFilter.shiftpattern.allowOneOffAllocations": string;
+  /** Format: text */
   "rowFilter.shiftpattern.cronTimezone": string;
 }
 
