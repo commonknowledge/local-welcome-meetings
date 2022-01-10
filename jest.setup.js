@@ -6,14 +6,14 @@
 import '@testing-library/jest-dom/extend-expect'
 import { loadEnvConfig } from '@next/env'
 import './__mocks__/windowMock'
-import {configure} from '@testing-library/react'
+import { configure } from '@testing-library/react'
 
 export default async function init() {
   const projectDir = process.cwd()
   loadEnvConfig(projectDir)
 
   configure({
-    testIdAttribute: 'data-attr'
+    testIdAttribute: 'data-attr',
   })
 }
 

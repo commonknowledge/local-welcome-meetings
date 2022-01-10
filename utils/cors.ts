@@ -1,5 +1,5 @@
 import Cors from 'cors'
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next'
 
 // Initializing the cors middleware
 export const corsGET = Cors({
@@ -11,7 +11,11 @@ export const corsGET = Cors({
 export function runMiddleware(
   req: NextApiRequest,
   res: NextApiResponse,
-  fn: <T>(req: NextApiRequest, res: NextApiResponse, fn: (result: T) => any) => any
+  fn: <T>(
+    req: NextApiRequest,
+    res: NextApiResponse,
+    fn: (result: T) => any,
+  ) => any,
 ) {
   return new Promise((resolve, reject) => {
     fn(req, res, (result) => {

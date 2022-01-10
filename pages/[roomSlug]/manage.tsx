@@ -1,20 +1,26 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { getRoomBySlug, RoomContextProvider } from '../../data/room';
-import { Room } from '../../types/app';
-import Link from 'next/link';
-import { getUserProfile, useUser } from '../../data/auth';
-import { strict as assert } from 'assert';
-import { CreateShiftPattern, ShiftPatterns } from '../../components/ShiftPatterns';
-import { ExternalLinkIcon } from '@heroicons/react/solid';
-import { Header, Loading } from '../../components/Layout';
-import { RotaContextProvider, useRota } from '../../data/rota';
-import { ShiftSchedule, SubscribeToCalendarDialog } from '../../components/ShiftSchedule';
+import { getRoomBySlug, RoomContextProvider } from '../../data/room'
+import { Room } from '../../types/app'
+import Link from 'next/link'
+import { getUserProfile, useUser } from '../../data/auth'
+import { strict as assert } from 'assert'
+import {
+  CreateShiftPattern,
+  ShiftPatterns,
+} from '../../components/ShiftPatterns'
+import { ExternalLinkIcon } from '@heroicons/react/solid'
+import { Header, Loading } from '../../components/Layout'
+import { RotaContextProvider, useRota } from '../../data/rota'
+import {
+  ShiftSchedule,
+  SubscribeToCalendarDialog,
+} from '../../components/ShiftSchedule'
 import { Disclosure, Tab } from '@headlessui/react'
-import { getUserFromHTTPRequest } from '../../data/leader-shared';
-import { CalendarIcon } from '@heroicons/react/outline';
-import { useState, Fragment } from 'react';
-import Modal from '../../components/Modal';
+import { getUserFromHTTPRequest } from '../../data/leader-shared'
+import { CalendarIcon } from '@heroicons/react/outline'
+import { useState, Fragment } from 'react'
+import Modal from '../../components/Modal'
 
 type IProps = {
   room: Room
@@ -29,8 +35,8 @@ const Route: NextPage<IProps> = ({ room }) => {
     <RoomContextProvider slug={room.slug} initialData={{ room }}>
       <Head>
         <title>{room.name}</title>
-        <meta name="description" content="Call link for ADHD Together." />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='Call link for ADHD Together.' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className='bg-gray-100 min-h-screen w-screen'>
         <Header />
@@ -46,14 +52,20 @@ const Route: NextPage<IProps> = ({ room }) => {
               Your calendar
             </h2>
             <Disclosure>
-              {({ open, close }) => <>
-                <Disclosure.Button as='button' className="button">
-                  Subscribe to calendar <CalendarIcon className='w-4 h-4 ml-1' />
-                </Disclosure.Button>
-                <Disclosure.Panel>
-                  <SubscribeToCalendarDialog open={open} onClose={() => close()} />
-                </Disclosure.Panel>
-              </>}
+              {({ open, close }) => (
+                <>
+                  <Disclosure.Button as='button' className='button'>
+                    Subscribe to calendar{' '}
+                    <CalendarIcon className='w-4 h-4 ml-1' />
+                  </Disclosure.Button>
+                  <Disclosure.Panel>
+                    <SubscribeToCalendarDialog
+                      open={open}
+                      onClose={() => close()}
+                    />
+                  </Disclosure.Panel>
+                </>
+              )}
             </Disclosure>
           </section>
           <section className='relative'>
@@ -67,7 +79,7 @@ const Route: NextPage<IProps> = ({ room }) => {
   )
 }
 
-function ShiftManager () {
+function ShiftManager() {
   const rota = useRota()
   const { profile } = useUser()
   const [modal, setModal] = useState(false)
@@ -77,22 +89,42 @@ function ShiftManager () {
   ) : (
     <Tab.Group>
       <Tab.List className='w-full flex justify-evenly border-b-2 border-gray-200'>
-        <Tab className={({ selected }) => `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${selected ? 'border-adhdPurple text-adhdPurple' : 'text-gray-500 border-transparent'}`}>
+        <Tab
+          className={({ selected }) =>
+            `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${
+              selected
+                ? 'border-adhdPurple text-adhdPurple'
+                : 'text-gray-500 border-transparent'
+            }`
+          }
+        >
           Rota
         </Tab>
-        <Tab className={({ selected }) => `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${selected ? 'border-adhdPurple text-adhdPurple' : 'text-gray-500 border-transparent'}`}>
+        <Tab
+          className={({ selected }) =>
+            `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${
+              selected
+                ? 'border-adhdPurple text-adhdPurple'
+                : 'text-gray-500 border-transparent'
+            }`
+          }
+        >
           Calendar
         </Tab>
       </Tab.List>
       <Tab.Panels>
         <Tab.Panel className='space-y-5 py-5'>
           <ShiftPatterns />
-          {profile?.canManageShifts && <Fragment>
-            <button className='button' onClick={() => setModal(true)}>Add shift pattern</button>
-            <Modal isOpen={modal} setIsOpen={setModal}>
-              <CreateShiftPattern />
-            </Modal>
-          </Fragment>}
+          {profile?.canManageShifts && (
+            <Fragment>
+              <button className='button' onClick={() => setModal(true)}>
+                Add shift pattern
+              </button>
+              <Modal isOpen={modal} setIsOpen={setModal}>
+                <CreateShiftPattern />
+              </Modal>
+            </Fragment>
+          )}
         </Tab.Panel>
         <Tab.Panel className='space-y-5 py-5'>
           <ShiftSchedule />
@@ -102,19 +134,26 @@ function ShiftManager () {
   )
 }
 
-export function RoomLink ({ room }: { room: Room }) {
-  return <Link href={`/${room.slug}`}>
-    <div className='flex flex-row justify-between text-adhdBlue cursor-pointer bg-adhdPurple hover:bg-adhdDarkPurple transition rounded-lg p-3'>
-      <div>
-        <div className='text-lg font-semibold'>ADHD Together {room.name}</div>
-        <div className='underline opacity-80 text-sm'>{(new URL('', process.env.NEXT_PUBLIC_BASEURL)).hostname}/{room.slug}</div>
+export function RoomLink({ room }: { room: Room }) {
+  return (
+    <Link href={`/${room.slug}`}>
+      <div className='flex flex-row justify-between text-adhdBlue cursor-pointer bg-adhdPurple hover:bg-adhdDarkPurple transition rounded-lg p-3'>
+        <div>
+          <div className='text-lg font-semibold'>ADHD Together {room.name}</div>
+          <div className='underline opacity-80 text-sm'>
+            {new URL('', process.env.NEXT_PUBLIC_BASEURL).hostname}/{room.slug}
+          </div>
+        </div>
+        <ExternalLinkIcon className='w-5 h-5' />
       </div>
-      <ExternalLinkIcon className='w-5 h-5' />
-    </div>
-  </Link>
+    </Link>
+  )
 }
 
-export const getServerSideProps: GetServerSideProps<IProps, IQuery> = async ({ req, params }) => {
+export const getServerSideProps: GetServerSideProps<IProps, IQuery> = async ({
+  req,
+  params,
+}) => {
   try {
     const room = await getRoomBySlug(params!.roomSlug as string)
     assert(!!room, 'No room found for the slug')

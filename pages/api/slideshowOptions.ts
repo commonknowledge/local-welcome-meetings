@@ -1,10 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import assert from 'assert';
-import { getSlideshowOptions } from '../../data/slideshow';
-import { SelectOption } from '@notionhq/client/build/src/api-types';
-import { withSentry } from '@sentry/nextjs';
+import assert from 'assert'
+import { getSlideshowOptions } from '../../data/slideshow'
+import { SelectOption } from '@notionhq/client/build/src/api-types'
+import { withSentry } from '@sentry/nextjs'
 
-async function handler (req: NextApiRequest, res: NextApiResponse<{ slideshowOptions?: SelectOption[], error?: any }>) {
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<{ slideshowOptions?: SelectOption[]; error?: any }>,
+) {
   try {
     const slideshowOptions = await getSlideshowOptions()
     assert.strict(slideshowOptions, 'Slideshow not found')

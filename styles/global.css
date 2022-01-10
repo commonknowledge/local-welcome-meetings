@@ -10,17 +10,28 @@ body {
 .prose {
   @apply text-adhdBlue;
 
-  p, h1, h2, h3, h4, h5 {
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     @apply text-adhdBlue;
   }
 
   .dark-prose {
-    p, h1, h2, h3, h4, h5 {
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
       @apply text-adhdPurple;
     }
   }
 
-  blockquote, p {
+  blockquote,
+  p {
     @apply my-2;
   }
 
@@ -29,8 +40,12 @@ body {
 
     p {
       @apply p-0 m-0;
-      &:before { display: none; }
-      &:after { display: none; }
+      &:before {
+        display: none;
+      }
+      &:after {
+        display: none;
+      }
     }
   }
 
@@ -39,7 +54,8 @@ body {
   }
 }
 
-@layer utilities {}
+@layer utilities {
+}
 
 @layer components {
   .button {

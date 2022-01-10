@@ -1,3 +1,3 @@
-import env from 'env-var';
+import env from 'env-var'
 
 export { env }
