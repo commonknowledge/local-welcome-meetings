@@ -18,7 +18,7 @@ export function Header() {
       <div
         className={`flex flex-row justify-between items-center max-w-md mx-auto`}
       >
-        <Link href='/'>
+        <Link href='/' passHref>
           <span className='inline-block cursor-pointer'>
             <Logo />
           </span>
