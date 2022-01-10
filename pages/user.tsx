@@ -1,14 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Room } from '../types/app'
 import Auth from '../components/Auth'
 import { Logo } from '../components/Branding'
-import { useRouter } from 'next/dist/client/router'
 
-type IProps = {}
-
-const Home: NextPage<IProps> = () => {
-  const router = useRouter()
+const Home: NextPage = () => {
   return (
     <div className='bg-adhdPurple min-h-screen'>
       <Head>
