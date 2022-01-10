@@ -52,7 +52,7 @@ export function VideoCall() {
             screenshare: Options.TRUE,
             chat: Options.TRUE,
             people: Options.TRUE,
-            leaveButton: Options.FALSE,
+            leaveButton: Options.TRUE,
             pipButton: Options.FALSE,
             breakout: Options.TRUE,
             timer: Options.TRUE,
