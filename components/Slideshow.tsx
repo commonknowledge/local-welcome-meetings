@@ -1,14 +1,13 @@
-import { Page } from '@notionhq/client/build/src/api-types'
-import { useCallback } from 'react'
-import { useMemo } from 'react'
-import { useRoom } from '../data/room'
-import { markdownToHtml } from '../data/markdown'
-import { useKeyPress, keyToCode } from '../utils/hooks'
-import { Navigation } from './Elements'
-import { useUser } from '../data/auth'
 import { Disclosure } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/solid'
+import { Page } from '@notionhq/client/build/src/api-types'
 import cx from 'classnames'
+import React, { Key, useCallback, useMemo } from 'react'
+import { useUser } from '../data/auth'
+import { markdownToHtml } from '../data/markdown'
+import { useRoom } from '../data/room'
+import { keyToCode, useKeyPress } from '../utils/hooks'
+import { Navigation } from './Elements'
 
 export function Slideshow() {
   const { profile } = useUser()
@@ -143,7 +142,7 @@ export const convertNotionToTailwindColour = (color: string) => {
   }
 }
 
-export function SlideshowControls() {
+export const SlideshowControls: React.FunctionComponent = () => {
   const { profile } = useUser()
   const { room, updateRoom, slides } = useRoom()
 
@@ -154,10 +153,13 @@ export function SlideshowControls() {
     [slides],
   )
 
-  const changeSlide = async (requestedIndex: number) => {
-    const nextIndex = safeSlideIndex(requestedIndex)
-    return updateRoom({ currentSlideIndex: nextIndex })
-  }
+  const changeSlide = React.useCallback(
+    async (requestedIndex: number) => {
+      const nextIndex = safeSlideIndex(requestedIndex)
+      return updateRoom({ currentSlideIndex: nextIndex })
+    },
+    [safeSlideIndex, updateRoom],
+  )
 
   useKeyPress(
     keyToCode('left'),
@@ -168,14 +170,21 @@ export function SlideshowControls() {
     () => room && changeSlide(room.currentSlideIndex + 1),
   )
 
-  if (!room) return <div />
+  const clickPrevious = React.useCallback(() => {
+    if (room != null) {
+      changeSlide(room.currentSlideIndex - 1)
+    }
+  }, [changeSlide, room])
 
-  return profile?.canLeadSessions ? (
+  const clickNext = React.useCallback(() => {
+    if (room != null) {
+      changeSlide(room.currentSlideIndex + 1)
+    }
+  }, [changeSlide, room])
+
+  return room != null && profile?.canLeadSessions ? (
     <div>
-      <Navigation
-        clickPrevious={() => changeSlide(room.currentSlideIndex - 1)}
-        clickNext={() => changeSlide(room.currentSlideIndex + 1)}
-      >
+      <Navigation clickPrevious={clickPrevious} clickNext={clickNext}>
         {room.currentSlideIndex + 1} of {slides?.length || 0}
       </Navigation>
     </div>
