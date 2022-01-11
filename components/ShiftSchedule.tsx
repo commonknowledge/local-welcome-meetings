@@ -1,32 +1,31 @@
+import { Dialog, Transition } from '@headlessui/react'
 import {
-  useRota,
+  ClipboardCopyIcon,
+  EmojiSadIcon,
+  ExclamationCircleIcon,
+} from '@heroicons/react/outline'
+import { ArrowCircleDownIcon } from '@heroicons/react/solid'
+import copy from 'copy-to-clipboard'
+import { isSameYear } from 'date-fns'
+import { format } from 'date-fns-tz'
+import n from 'pluralize'
+import qs from 'query-string'
+import { useMemo, useState } from 'react'
+import { useUser } from '../data/auth'
+import {
   calculateSchedule,
   calculateShiftPatternStatus,
   ScheduledDate,
+  useRota,
 } from '../data/rota'
-import { format } from 'date-fns-tz'
-import { ShiftAllocationEditor } from './ShiftPatterns'
-import { useMemo, useState } from 'react'
-import { ShiftExceptionType } from '../types/app'
-import n from 'pluralize'
-import { Transition } from '@headlessui/react'
-import { ArrowCircleDownIcon } from '@heroicons/react/solid'
-import { isSameYear } from 'date-fns'
-import {
-  ClipboardCopyIcon,
-  ExclamationCircleIcon,
-  EmojiSadIcon,
-} from '@heroicons/react/outline'
-import { getTimezone } from '../utils/date'
-import { Dialog } from '@headlessui/react'
-import { useUser } from '../data/auth'
-import copy from 'copy-to-clipboard'
-import qs from 'query-string'
 import { isClient } from '../styles/screens'
+import { ShiftExceptionType } from '../types/app'
+import { getTimezone } from '../utils/date'
+import { NO_OP } from '../utils/utils'
+import { ShiftAllocationEditor } from './ShiftPatterns'
 
 export function ShiftSchedule() {
   const rota = useRota()
-  const user = useUser()
 
   const [maxDates, setMaxDates] = useState(4)
 
@@ -76,7 +75,7 @@ export function SubscribeToCalendarDialog({
   onClose,
 }: {
   open: boolean
-  onClose: () => void
+  onClose: NO_OP
 }) {
   const user = useUser()
   const calendarURL = isClient
@@ -133,7 +132,6 @@ function DateManager({
   const spStatus = calculateShiftPatternStatus(shiftPattern, shiftAllocations)
   const notEnough = peopleStillRequired > 0
   const tooMany = peopleStillRequired < 0
-  const justRight = peopleStillRequired === 0
   const dropOutCount = shiftExceptions.filter(
     (se) => se.type === ShiftExceptionType.DropOut,
   ).length

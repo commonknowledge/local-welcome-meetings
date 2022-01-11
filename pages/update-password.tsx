@@ -1,12 +1,9 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Auth from '../components/Auth'
-import { Logo } from '../components/Branding'
 import { Header } from '../components/Layout'
 
-type IProps = {}
-
-const Page: NextPage<IProps> = () => {
+const Page: NextPage = () => {
   return (
     <div className='bg-adhdPurple min-h-screen text-adhdBlue'>
       <Head>

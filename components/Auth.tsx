@@ -1,11 +1,9 @@
-import { ClockIcon, LockClosedIcon } from '@heroicons/react/solid'
-import { login, resetPassword, updatePassword, useUser } from '../data/auth'
-import { useState, useEffect } from 'react'
-import { ShowFor } from './Elements'
-import { useForm } from 'react-hook-form'
-import { supabase } from '../data/supabase'
-import Link from 'next/link'
 import { useRouter } from 'next/dist/client/router'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { resetPassword, updatePasswordOnSupabase } from '../data/auth'
+import { supabase } from '../data/supabase'
+import { ShowFor } from './Elements'
 
 type RedirectTo = undefined | string
 
@@ -115,7 +113,6 @@ function EmailAuth({
 
   const defaultValues = { email: defaultEmail, password: defaultPassword }
   const { register, handleSubmit, watch } = useForm({ defaultValues })
-  const { password, email } = watch()
 
   const onSubmit = async ({ email, password }: typeof defaultValues) => {
     try {
@@ -125,7 +122,7 @@ function EmailAuth({
         case 'sign_in':
           const { error: signInError } = await supabase.auth.signIn(
             {
-              email,
+              email: email,
               password,
             },
             { redirectTo },
@@ -137,14 +134,19 @@ function EmailAuth({
           const { error: signUpError, data: signUpData } =
             await supabase.auth.signUp(
               {
-                email,
+                email: email,
                 password,
               },
               { redirectTo },
             )
           if (signUpError) setError(signUpError.message)
           // checking if it has access_token to know if email verification is disabled
-          else if (signUpData?.hasOwnProperty('confirmation_sent_at'))
+          else if (
+            Object.prototype.hasOwnProperty.call(
+              signUpData,
+              'confirmation_sent_at',
+            )
+          )
             setMessage('Check your email for the confirmation link.')
           break
       }
@@ -156,11 +158,7 @@ function EmailAuth({
     }
   }
 
-  const handleViewChange = (newView: ViewType) => {
-    setDefaultEmail(email)
-    setDefaultPassword(password)
-    setAuthView(newView)
-  }
+  const { password, email } = watch()
 
   return (
     <form
@@ -264,7 +262,6 @@ function ForgottenPassword({
 
   const defaultValues = { email: defaultEmail }
   const { register, handleSubmit, watch } = useForm({ defaultValues })
-  const { email } = watch()
 
   const onSubmit = async ({ email }: typeof defaultValues) => {
     try {
@@ -279,6 +276,7 @@ function ForgottenPassword({
     }
   }
 
+  const { email } = watch()
   const handleViewChange = (newView: ViewType) => {
     setDefaultEmail(email)
     setAuthView(newView)
@@ -332,22 +330,21 @@ function ForgottenPassword({
 
 /////
 
-function UpdatePassword({}: {}) {
+const UpdatePassword: React.FunctionComponent = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   const defaultValues = { password: '' }
   const { register, handleSubmit, watch } = useForm({ defaultValues })
-  const { password } = watch()
 
   const onSubmit = async ({ password }: typeof defaultValues) => {
     try {
       setError('')
       setMessage('')
       setLoading(true)
-      const { error } = await updatePassword(password)
-      if (error) setError(error.message)
+      const { error: err } = await updatePasswordOnSupabase(password)
+      if (err) setError(err.message)
     } catch (e) {
       setError(String(e))
     } finally {
@@ -358,7 +355,7 @@ function UpdatePassword({}: {}) {
     }
   }
 
-  const user = useUser()
+  const { password } = watch()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-2 flex flex-col'>

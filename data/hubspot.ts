@@ -1,19 +1,18 @@
 import { Client } from '@hubspot/api-client'
-import { startOfDay, formatISO } from 'date-fns'
+import { formatISO, startOfDay } from 'date-fns'
 import env from 'env-var'
 import qs from 'query-string'
-import { passThroughLog } from '../utils/debug'
 
 const HUBSPOT_API_KEY = env.get('HUBSPOT_API_KEY').required().asString()
 
 export const hubspotV3 = new Client({ apiKey: HUBSPOT_API_KEY })
 
-export const hubspotV1 = async (path: string, args?: RequestInit) => {
+export const hubspotV1 = async (path: string) => {
   const url = qs.stringifyUrl({
     url: `https://api.hubapi.com/contacts/v1${path}`,
     query: { hapikey: HUBSPOT_API_KEY },
   })
-  const res = await fetch(url, args)
+  const res = await fetch(url)
   return await res.json()
 }
 
@@ -28,9 +27,9 @@ export const getDetailsForContact = (contact: Contact) => {
     profile.identities.forEach((identity) => {
       acc[identity.type] ??= []
       acc[identity.type].push(identity)
-      // @ts-ignore
       acc[identity.type].sort(
-        (a, b) => (a['is-primary'] || false) - (b['is-primary'] || false),
+        (a, b) =>
+          Number(a['is-primary'] ?? false) - Number(b['is-primary'] ?? false),
       )
     })
     return acc
@@ -53,18 +52,17 @@ export async function updateHubspotContact(
   id: string,
   properties: { [key: string]: any },
 ) {
-  try {
-    const result = await hubspotV3.crm.contacts.basicApi.update(id, {
+  return await hubspotV3.crm.contacts.basicApi
+    .update(id, {
       properties: formatProperties(properties),
     })
-    return result
-  } catch (e) {
-    if (e?.response?.body) {
-      console.error(e.response.body)
-    } else {
-      console.error(e)
-    }
-  }
+    .catch((e) => {
+      if (e.response?.body) {
+        console.error(e.response.body)
+      } else {
+        console.error(e)
+      }
+    })
 }
 
 export interface HubspotContactListResponse {

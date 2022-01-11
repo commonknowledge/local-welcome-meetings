@@ -11,6 +11,7 @@ import {
 import { Page } from '@notionhq/client/build/src/api-types'
 import qs from 'query-string'
 import { usePrevious } from '../utils/hooks'
+import { NO_OP } from '../utils/utils'
 
 export async function getAllRooms(): Promise<Room[]> {
   const rooms = await supabase.from<Room>('room').select('*')
@@ -84,7 +85,7 @@ export interface IRoomContext {
 export const RoomContext = createContext<IRoomContext>({
   room: null,
   slides: [],
-  updateRoom(room) {},
+  updateRoom: NO_OP,
 })
 
 export function RoomContextProvider({
@@ -114,8 +115,8 @@ export function RoomContextProvider({
   )
 
   const _updateRoom = useCallback(
-    async (room: Partial<Room>) => {
-      const res = await updateRoom(slug, room)
+    async (newRoom: Partial<Room>) => {
+      const res = await updateRoom(slug, newRoom)
       if (res.body?.[0]) {
         setRoom(res.body[0])
       }
@@ -128,9 +129,9 @@ export function RoomContextProvider({
       const res = await fetch(
         qs.stringifyUrl({ url: '/api/slides', query: { slideshowName } }),
       )
-      const { slides } = await res.json()
-      if (!slides) return
-      setSlides(slides)
+      const { slides: newSlides } = await res.json()
+      if (!newSlides) return
+      setSlides(newSlides)
       _updateRoom({ currentSlideIndex: 0 })
     },
     [_updateRoom],

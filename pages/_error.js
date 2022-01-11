@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import NextErrorComponent from 'next/error'
 
 import * as Sentry from '@sentry/nextjs'
@@ -56,6 +57,12 @@ MyError.getInitialProps = async ({ res, err, asPath }) => {
   await Sentry.flush(2000)
 
   return errorInitialProps
+}
+
+MyError.propTypes = {
+  statusCode: PropTypes.number,
+  hasGetInitialPropsRun: PropTypes.boolean,
+  err: PropTypes.any,
 }
 
 export default MyError

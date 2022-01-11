@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 import '../styles/global.css'
-import { usePosthog } from '../data/posthog'
+import { usePostHog } from 'next-use-posthog'
 import { UserContextProvider } from '../data/auth'
 import { TimeProvider } from '../data/time'
 import { useRouter } from 'next/dist/client/router'
@@ -8,7 +8,15 @@ import { useEffect } from 'react'
 import qs from 'query-string'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  usePosthog()
+  usePostHog(process.env.NEXT_PUBLIC_POSTHOG_API_KEY as string, {
+    api_host: 'https://app.posthog.com',
+    loaded: (posthog) => {
+      if (process.env.NODE_ENV === 'development') {
+        posthog.opt_out_capturing()
+      }
+    },
+  })
+
   const router = useRouter()
 
   useEffect(() => {

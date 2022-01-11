@@ -11,14 +11,11 @@ async function handler(
 ) {
   const profiles = await supabase.from<Profile>('profile').select('*')
   assert.strict(profiles.data?.length, 'Profiles not found')
-  try {
-    const dates = await updateCrmWithDatesByProfile(profiles.data)
-    return res.status(200).json({ dates })
-  } catch (e) {
+  const dates = await updateCrmWithDatesByProfile(profiles.data).catch((e) => {
     console.error(e)
     return res.status(500).json({ error: e.toString() })
-  }
+  })
+  return res.status(200).json({ dates })
 }
 
-// @ts-ignore
 export default withSentry(handler)

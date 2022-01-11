@@ -16,7 +16,7 @@ export const getDatesForCron = (
 ) => {
   const schedule = parseCron(cron, timezone, currentDate)
   let i = 0
-  let dates = []
+  const dates: Array<Date> = []
   while (i < count) {
     const next = schedule.next()
     if (next) {

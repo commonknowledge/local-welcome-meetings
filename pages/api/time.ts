@@ -8,5 +8,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   return requestHandler(req, res)
 }
 
-// @ts-ignore
 export default withSentry(handler)

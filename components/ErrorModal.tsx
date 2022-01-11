@@ -1,5 +1,5 @@
-import { Transition, Dialog } from '@headlessui/react'
-import { useState, Fragment } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import React, { Fragment, useState } from 'react'
 
 export function ErrorModal({
   title,
@@ -8,15 +8,11 @@ export function ErrorModal({
   title: string
   message: string
 }) {
-  let [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true)
 
-  function closeModal() {
+  const closeModal = React.useCallback(() => {
     setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
-  }
+  }, [])
 
   return (
     <Transition appear show={isOpen} as={Fragment}>

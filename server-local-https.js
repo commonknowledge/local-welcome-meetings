@@ -1,5 +1,5 @@
-var https = require('https')
-var fs = require('fs')
+const https = require('https')
+const fs = require('fs')
 const { parse } = require('url')
 
 const next = require('next')
@@ -8,7 +8,7 @@ const dev = true
 const app = next({ dev, dir: __dirname })
 const handle = app.getRequestHandler()
 
-var options = {
+const options = {
   key: fs.readFileSync('./dev/session.adhdtogether.dev-key.pem'),
   cert: fs.readFileSync('./dev/session.adhdtogether.dev.pem'),
 }

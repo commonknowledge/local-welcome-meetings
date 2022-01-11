@@ -1,16 +1,17 @@
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import { useTime } from '../utils/hooks'
 import { Transition } from '@headlessui/react'
-import { differenceInSeconds, addSeconds } from 'date-fns'
-import { useState } from 'react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import { addSeconds } from 'date-fns'
+import * as React from 'react'
+import { useTime } from '../utils/hooks'
+import { NO_OP } from '../utils/utils'
 
 export const Navigation = ({
   clickPrevious,
   clickNext,
   children,
 }: {
-  clickPrevious: () => void
-  clickNext: () => void
+  clickPrevious: NO_OP
+  clickNext: NO_OP
   children?: any
 }) => (
   <nav
@@ -39,17 +40,19 @@ export const Navigation = ({
   </nav>
 )
 
-export const ShowFor = ({
-  seconds,
-  children,
-  then,
-}: {
+interface ShowForProps {
   seconds: number
   children: any
   then?: any
+}
+
+export const ShowFor: React.FunctionComponent<ShowForProps> = ({
+  seconds,
+  children,
+  then,
 }) => {
-  const [startTime, setStartTime] = useState(new Date())
-  const endTime = addSeconds(startTime, seconds)
+  const startTime = React.useRef(new Date())
+  const endTime = addSeconds(startTime.current, seconds)
   const time = useTime()
 
   return (

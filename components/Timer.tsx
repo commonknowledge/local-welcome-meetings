@@ -1,16 +1,16 @@
-import { addSeconds, startOfDay, differenceInMilliseconds } from 'date-fns'
-import { format, utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz'
+import { addSeconds, differenceInMilliseconds, startOfDay } from 'date-fns'
+import { format, utcToZonedTime } from 'date-fns-tz'
+import React, { useEffect, useState } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-import { useUser } from '../data/auth'
-import { useRoom, updateRoom, IRoomContext } from '../data/room'
 import { theme } from 'twin.macro'
-import { useState, useEffect, useCallback } from 'react'
+import { useUser } from '../data/auth'
+import { IRoomContext, useRoom } from '../data/room'
+import { useServerTime } from '../data/time'
+import { down, useMediaQuery } from '../styles/screens'
+import { Room } from '../types/app'
+import { getTimezone } from '../utils/date'
 import { usePrevious } from '../utils/hooks'
 import { ShowFor } from './Elements'
-import { useMediaQuery, down, isServer } from '../styles/screens'
-import { getTimezone } from '../utils/date'
-import { Room } from '../types/app'
-import { useServerTime } from '../data/time'
 import { Loading } from './Layout'
 
 export function Timer() {
@@ -73,12 +73,12 @@ export function TimerComponent({
 
   const timezone = getTimezone()
 
-  const resetTimer = () => {
+  const resetTimer = React.useCallback(() => {
     updateRoom({
       timerState: 'stopped',
       timerStartTime: serverTime.getServerDate() as any,
     })
-  }
+  }, [serverTime, updateRoom])
 
   const startTimer = (timerDuration?: number) =>
     updateRoom({
@@ -93,9 +93,9 @@ export function TimerComponent({
   const remainingSeconds =
     Math.max(0, differenceInMilliseconds(endDate, now)) / 1000
 
-  function onTimerComplete() {
+  const onTimerComplete = React.useCallback(() => {
     resetTimer()
-  }
+  }, [resetTimer])
 
   function sd(seconds: number, duration: number) {
     return Math.min(
@@ -155,21 +155,18 @@ export function TimerComponent({
               // Member views of timer
               !!isPlaying && !!remainingTime && !!elapsedTime ? (
                 <CurrentTime remainingTime={remainingTime} />
-              ) : !!timerFinishedDate ? (
+              ) : timerFinishedDate != null ? (
                 <ShowFor
                   seconds={5}
-                  // @ts-ignore
-                  // eslint-disable-next-line
-                  children={
-                    <div
-                      className='uppercase text-sm font-semibold mt-2 cursor-pointer text-adhdBlue bg-adhdDarkPurple rounded-lg p-1'
-                      onClick={toggleTimer}
-                    >
-                      Time Is Up! ✅
-                    </div>
-                  }
                   then={<CurrentTime remainingTime={room.timerDuration} />}
-                />
+                >
+                  <div
+                    className='uppercase text-sm font-semibold mt-2 cursor-pointer text-adhdBlue bg-adhdDarkPurple rounded-lg p-1'
+                    onClick={toggleTimer}
+                  >
+                    Time Is Up! ✅
+                  </div>
+                </ShowFor>
               ) : null
             ) : (
               // Leader views of timer

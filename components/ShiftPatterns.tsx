@@ -180,7 +180,7 @@ export function ShiftAllocationEditor({
 }) {
   const rota = useRota()
   const [inputItems, setInputItems] = useState<Profile[]>(options)
-  const [savedDataState, setDataState] = useState<
+  const [dataState, setDataState] = useState<
     null | 'loading' | 'saved' | 'error'
   >(null)
 
@@ -278,7 +278,6 @@ export function ShiftAllocationEditor({
   const {
     isOpen,
     getToggleButtonProps,
-    getLabelProps,
     getMenuProps,
     getInputProps,
     getComboboxProps,
@@ -508,7 +507,7 @@ export function CreateShiftPattern() {
   const rota = useRota()
 
   const defaultValues: Omit<ShiftPattern, 'id' | 'updatedAt'> = {
-    roomId: room?.id!,
+    roomId: room?.id ?? '',
     name: '',
     required_people: 2,
     cron: '30 18 * * WED#1',

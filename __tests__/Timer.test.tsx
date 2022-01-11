@@ -2,12 +2,12 @@
  * @jest-environment jsdom
  */
 
-import React from 'react'
-import { render, screen, fireEvent, act } from '@testing-library/react'
-import { TimerComponent } from '../components/Timer'
-import { Room } from '../types/app'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { merge } from 'lodash'
+import React from 'react'
+import { TimerComponent } from '../components/Timer'
 import { RoomContext } from '../data/room'
+import { Room } from '../types/app'
 
 const MockRoomContext = ({
   room: _room = {},
@@ -46,7 +46,7 @@ const MockRoomContext = ({
   )
 
   const updateRoom = (nextRoom: Partial<Room>) =>
-    setRoom((room) => merge({}, room, nextRoom))
+    setRoom((newRoom) => merge({}, newRoom, nextRoom))
 
   return (
     <RoomContext.Provider

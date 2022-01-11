@@ -1,14 +1,14 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { upsertUserProfile } from '../../data/leader'
+import { withSentry } from '@sentry/nextjs'
 import { strict as assert } from 'assert'
+import env from 'env-var'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import {
+  getDetailsForContact,
+  getHubspotContactsInList,
+} from '../../data/hubspot'
+import { upsertUserProfile } from '../../data/leader'
 import { supabase } from '../../data/supabase'
 import { Room, RoomPermission, RoomPermissionType } from '../../types/app'
-import {
-  getHubspotContactsInList,
-  getDetailsForContact,
-} from '../../data/hubspot'
-import { withSentry } from '@sentry/nextjs'
-import env from 'env-var'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const rooms = await supabase.from<Room>('room').select('*')
@@ -25,9 +25,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const hubspotLeaderListId =
       room.hubspotLeaderListId ||
       env.get('HUBSPOT_LEADER_LIST_ID').required().asInt()
+    // eslint-disable-next-line no-await-in-loop
     const { contacts } = await getHubspotContactsInList(hubspotLeaderListId)
 
-    let roomLeaderProfiles = await upsertUserProfile(
+    // eslint-disable-next-line no-await-in-loop
+    const roomLeaderProfiles = await upsertUserProfile(
       contacts.map((contact) => ({
         email: getDetailsForContact(contact).EMAIL?.[0].value,
         hubspotContactId: contact.vid as any,
@@ -43,6 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     // Add permissions for new roomLeaderProfiles
 
+    // eslint-disable-next-line no-await-in-loop
     const currentPermissions = await supabase
       .from<RoomPermission>('roompermission')
       .select('*')
@@ -57,13 +60,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       type: RoomPermissionType.Lead,
     }))
 
-    // New leaders to the group will have permissions added
-    const newNext = futurePermissions.filter(
-      (p) =>
-        !currentPermissions.body?.some((cP) => cP.profileId === p.profileId),
-    )
-
-    const newPermissions = await supabase
+    // update permissions
+    supabase
       .from<RoomPermission>('roompermission')
       .insert(
         futurePermissions.filter(
@@ -75,7 +73,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       )
 
     // Leaders no longer in this group will have the permission deleted
-    const deletedPermissions = await supabase
+    supabase
       .from<RoomPermission>('roompermission')
       .delete()
       .match({
@@ -97,5 +95,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).end()
 }
 
-// @ts-ignore
 export default withSentry(handler)

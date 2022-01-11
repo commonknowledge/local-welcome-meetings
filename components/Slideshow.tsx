@@ -28,15 +28,15 @@ export function Slideshow() {
   return (
     <div className='prose'>
       <section className='p-4'>
-        {/* @ts-ignore */}
         <h2 className='!mt-0'>
           {currentSlide?.properties['Name']
+            // @ts-ignore
             .title!.map((fragment) => fragment.plain_text)
             .join()}
         </h2>
-        {/* @ts-ignore */}
-        {currentSlide?.properties['Member notes'].rich_text!.map(
-          (fragment, i) => (
+        {currentSlide?.properties['Member notes']
+          // @ts-ignore
+          .rich_text!.map((fragment, i) => (
             <div
               key={i}
               className={`dictates-colour ${convertNotionToTailwindColour(
@@ -46,8 +46,7 @@ export function Slideshow() {
                 __html: markdownToHtml(fragment.text.content),
               }}
             />
-          ),
-        )}
+          ))}
       </section>
       {profile?.canLeadSessions && (
         <section className='dark-prose mx-4 text-adhdPurple'>
@@ -75,7 +74,13 @@ export function Slideshow() {
                 <Disclosure.Panel className='p-4 pt-0 pb-2'>
                   {/* @ts-ignore */}
                   {currentSlide?.properties['Speaker notes'].rich_text!.map(
-                    (fragment, i) => (
+                    (
+                      fragment: {
+                        annotations: { color: string }
+                        text: { content: string }
+                      },
+                      i: Key | null | undefined,
+                    ) => (
                       <div
                         key={i}
                         className={`dictates-colour ${convertNotionToTailwindColour(

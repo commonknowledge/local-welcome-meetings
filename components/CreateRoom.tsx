@@ -1,32 +1,42 @@
 import { Room } from '../types/app'
 import { useForm } from 'react-hook-form'
 import { useSlideshowOptions } from '../data/slideshow-client'
-import { Fragment, Suspense, useMemo } from 'react'
+import React, { Fragment, Suspense, useMemo } from 'react'
 import slugify from 'slugify'
 import { createRoom } from '../data/room'
 import Modal from './Modal'
+import { NO_OP } from '../utils/utils'
 
 export default function CreateRoomModal({
   isOpen,
   setIsOpen,
 }: {
   isOpen: boolean
-  setIsOpen: Function
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
+  const onFormComplete = React.useCallback(() => setIsOpen(false), [setIsOpen])
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <CreateRoom onFormComplete={() => setIsOpen(false)} />
+      <CreateRoom onFormComplete={onFormComplete} />
     </Modal>
   )
 }
 
-export function CreateRoom({ onFormComplete }: { onFormComplete?: Function }) {
+interface CreateRoomProps {
+  onFormComplete?: NO_OP
+}
+
+export const CreateRoom: React.FunctionComponent<CreateRoomProps> = ({
+  onFormComplete,
+}) => {
   const defaultValues: Omit<Room, 'id' | 'updatedAt'> = {
     currentSlideIndex: 0,
-    // @ts-ignore
-    timerStartTime: new Date(),
+    timerStartTime: String(new Date()),
     timerState: 'stopped',
     timerDuration: 90,
+    name: '',
+    slug: '',
+    slideshowName: '',
   }
 
   const { register, handleSubmit, watch, reset } = useForm({

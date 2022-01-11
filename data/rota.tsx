@@ -13,6 +13,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useRoom } from './room'
 import { isSameDay, isBefore } from 'date-fns'
 import { getDatesForCron } from '../utils/date'
+import { NO_OP } from '../utils/utils'
 
 /**
  * Context
@@ -33,9 +34,9 @@ export const RotaContext = createContext<IRotaContext>({
   shiftPatterns: [],
   shiftAllocations: [],
   shiftExceptions: [],
-  createShiftPattern: () => {},
-  createShiftAllocation: () => {},
-  createShiftException: () => {},
+  createShiftPattern: NO_OP,
+  createShiftAllocation: NO_OP,
+  createShiftException: NO_OP,
 })
 
 export const RotaContextProvider = (props: any) => {
@@ -75,10 +76,10 @@ export const RotaContextProvider = (props: any) => {
 
   useEffect(
     function () {
-      let shiftUnsubscribe: () => void
-      let allocationUnsubscribe: () => void
-      let leadersUnsubscribe: () => void
-      let exceptionsUnsubscribe: () => void
+      let shiftUnsubscribe: NO_OP
+      let allocationUnsubscribe: NO_OP
+      let leadersUnsubscribe: NO_OP
+      let exceptionsUnsubscribe: NO_OP
 
       if (room) {
         shiftUnsubscribe = onShiftPatternChange(() =>
@@ -94,10 +95,10 @@ export const RotaContextProvider = (props: any) => {
       }
 
       return () => {
-        shiftUnsubscribe?.()
-        allocationUnsubscribe?.()
-        leadersUnsubscribe?.()
-        exceptionsUnsubscribe?.()
+        shiftUnsubscribe()
+        allocationUnsubscribe()
+        leadersUnsubscribe()
+        exceptionsUnsubscribe()
       }
     },
     [room],
@@ -284,8 +285,8 @@ export function calculateSchedule(
             ).length),
       }
     })
-    acc = acc.concat(dates).sort((a, b) => a.date.getTime() - b.date.getTime())
-    return acc
+
+    return acc.concat(dates).sort((a, b) => a.date.getTime() - b.date.getTime())
   }, [] as Array<ScheduledDate>)
 }
 
@@ -321,24 +322,25 @@ export function calendarForProfile(
       datesAhead,
     )
 
-    return nextDates.reduce((acc, date) => {
+    return nextDates.reduce((nextAcc, date) => {
       const profileDroppedOutToday = shiftExceptionsForProfile.find(
         (se) =>
           se.type === ShiftExceptionType.DropOut &&
           se.shiftPatternId === shiftPattern.id &&
           isSameDay(new Date(se.date), date),
       )
-      if (profileDroppedOutToday) return acc
 
-      return acc.concat([
-        {
-          date,
-          isFillingIn: false,
-          shiftPattern,
-        },
-      ])
-    }, [] as Array<CalendarDate>)
-  }, [] as Array<CalendarDate>)
+      return profileDroppedOutToday
+        ? nextAcc
+        : nextAcc.concat([
+            {
+              date,
+              isFillingIn: false,
+              shiftPattern,
+            },
+          ])
+    }, new Array<CalendarDate>())
+  }, new Array<CalendarDate>())
 
   // Add fill-ins
   const fillInDates = shiftExceptionsForProfile

@@ -19,5 +19,4 @@ async function handler(
   }
 }
 
-// @ts-ignore
 export default withSentry(handler)

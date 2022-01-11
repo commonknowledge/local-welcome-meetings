@@ -38,8 +38,8 @@ export const TimeProvider = ({ children }: { children?: any }) => {
     })
 
     // get notified on changes in the offset
-    ts.current?.on('change', function (offset) {
-      setOffset(offset)
+    ts.current?.on('change', function (newOffset) {
+      setOffset(newOffset)
     })
 
     return () => ts.current?.destroy()

@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react'
-import { Fragment, Suspense } from 'react'
+import React, { Fragment, Suspense } from 'react'
 import { SelectOption } from '@notionhq/client/build/src/api-types'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useSlideshowOptions } from '../data/slideshow-client'
@@ -13,6 +13,7 @@ export function SlideshowOptions({
   selectOption: (option: SelectOption) => void
   currentOption?: string
 }) {
+  const slideshowOptions = useSlideshowOptions()
   return (
     <Menu as='div' className='w-full relative inline-block text-left'>
       {({ open }) => (
@@ -39,7 +40,16 @@ export function SlideshowOptions({
                     </Menu.Item>
                   }
                 >
-                  <SlideshowMenuItems {...{ currentOption, selectOption }} />
+                  {slideshowOptions.data?.slideshowOptions.map(
+                    (option: SelectOption) => (
+                      <SlideshowMenuItem
+                        key={option.id}
+                        option={option}
+                        selectOption={selectOption}
+                        isCurrentOption={currentOption === option.name}
+                      />
+                    ),
+                  )}
                 </Suspense>
               </div>
             </Menu.Items>
@@ -50,33 +60,31 @@ export function SlideshowOptions({
   )
 }
 
-function SlideshowMenuItems({
+function SlideshowMenuItem({
   selectOption,
-  currentOption,
+  isCurrentOption,
+  option,
 }: {
   selectOption: (option: SelectOption) => void
-  currentOption?: string
+  isCurrentOption: boolean
+  option: SelectOption
 }) {
-  const slideshowOptions = useSlideshowOptions()
-
+  const onClick = React.useCallback(
+    () => selectOption(option),
+    [option, selectOption],
+  )
   return (
-    <Fragment>
-      {slideshowOptions.data?.slideshowOptions.map((option: any) => (
-        <Menu.Item key={option.id} onClick={() => selectOption(option)}>
-          {({ active }) => (
-            <span
-              className={`${
-                active ? 'bg-adhdPurple text-white' : 'text-gray-900'
-              } group flex rounded-md cursor-pointer items-center w-full px-2 py-2 text-sm`}
-            >
-              {option.name === currentOption && (
-                <CheckIcon className='w-4 mr-2 flex-shrink-0' />
-              )}
-              {option.name}
-            </span>
-          )}
-        </Menu.Item>
-      ))}
-    </Fragment>
+    <Menu.Item key={option.id} onClick={onClick}>
+      {({ active }) => (
+        <span
+          className={`${
+            active ? 'bg-adhdPurple text-white' : 'text-gray-900'
+          } group flex rounded-md cursor-pointer items-center w-full px-2 py-2 text-sm`}
+        >
+          {isCurrentOption && <CheckIcon className='w-4 mr-2 flex-shrink-0' />}
+          {option.name}
+        </span>
+      )}
+    </Menu.Item>
   )
 }

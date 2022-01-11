@@ -2,8 +2,6 @@
 /** @typedef { import('tailwindcss/defaultTheme') } DefaultTheme */
 /** @typedef { DefaultConfig & { theme: { extend: DefaultTheme } } } TailwindConfig */
 
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 /** @type {TailwindConfig} */
 module.exports = {
   mode: 'jit',

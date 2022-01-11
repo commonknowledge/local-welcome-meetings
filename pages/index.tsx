@@ -1,20 +1,16 @@
-import type { NextPage, GetServerSideProps } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { getAllRooms, useRooms } from '../data/room'
-import { Room, RoomPermissionType } from '../types/app'
-import RoomList from '../components/Rooms'
-import Auth from '../components/Auth'
-import { useUser } from '../data/auth'
-import { Header, Loading } from '../components/Layout'
 import { Fragment, useState } from 'react'
 import CreateRoomModal from '../components/CreateRoom'
-import Link from 'next/link'
+import { Header, Loading } from '../components/Layout'
+import RoomList from '../components/Rooms'
+import { useUser } from '../data/auth'
+import { getAllRooms, useRooms } from '../data/room'
+import { Room, RoomPermissionType } from '../types/app'
 
 type IProps = {
   rooms: Room[]
 }
-
-type IQuery = {}
 
 const Home: NextPage<IProps> = ({ rooms }) => {
   const { user, isLoggedIn, profile, permissions, signIn } = useUser()
@@ -65,7 +61,7 @@ const Home: NextPage<IProps> = ({ rooms }) => {
   )
 }
 
-export const getServerSideProps: GetServerSideProps<IProps, IQuery> = async (
+export const getServerSideProps: GetServerSideProps<IProps> = async (
   context,
 ) => {
   return {

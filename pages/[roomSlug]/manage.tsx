@@ -19,7 +19,7 @@ import {
 import { Disclosure, Tab } from '@headlessui/react'
 import { getUserFromHTTPRequest } from '../../data/leader-shared'
 import { CalendarIcon } from '@heroicons/react/outline'
-import { useState, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import Modal from '../../components/Modal'
 
 type IProps = {
@@ -59,10 +59,7 @@ const Route: NextPage<IProps> = ({ room }) => {
                     <CalendarIcon className='w-4 h-4 ml-1' />
                   </Disclosure.Button>
                   <Disclosure.Panel>
-                    <SubscribeToCalendarDialog
-                      open={open}
-                      onClose={() => close()}
-                    />
+                    <SubscribeToCalendarDialog open={open} onClose={close} />
                   </Disclosure.Panel>
                 </>
               )}
@@ -79,38 +76,37 @@ const Route: NextPage<IProps> = ({ room }) => {
   )
 }
 
-function ShiftManager() {
+const ShiftManager: React.FunctionComponent = () => {
   const rota = useRota()
   const { profile } = useUser()
   const [modal, setModal] = useState(false)
+
+  const rotaClassName = React.useCallback(
+    ({ selected }) =>
+      `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${
+        selected
+          ? 'border-adhdPurple text-adhdPurple'
+          : 'text-gray-500 border-transparent'
+      }`,
+    [],
+  )
+  const calendarClassName = React.useCallback(
+    ({ selected }) =>
+      `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${
+        selected
+          ? 'border-adhdPurple text-adhdPurple'
+          : 'text-gray-500 border-transparent'
+      }`,
+    [],
+  )
 
   return !rota.roomLeaders.length ? (
     <Loading />
   ) : (
     <Tab.Group>
       <Tab.List className='w-full flex justify-evenly border-b-2 border-gray-200'>
-        <Tab
-          className={({ selected }) =>
-            `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${
-              selected
-                ? 'border-adhdPurple text-adhdPurple'
-                : 'text-gray-500 border-transparent'
-            }`
-          }
-        >
-          Rota
-        </Tab>
-        <Tab
-          className={({ selected }) =>
-            `uppercase text-sm font-bold py-2 px-4 w-full box-content border-b-2 ${
-              selected
-                ? 'border-adhdPurple text-adhdPurple'
-                : 'text-gray-500 border-transparent'
-            }`
-          }
-        >
-          Calendar
-        </Tab>
+        <Tab className={rotaClassName}>Rota</Tab>
+        <Tab className={calendarClassName}>Calendar</Tab>
       </Tab.List>
       <Tab.Panels>
         <Tab.Panel className='space-y-5 py-5'>

@@ -6,7 +6,7 @@
 const { withSentryConfig } = require('@sentry/nextjs')
 const { PHASE_DEVELOPMENT_SERVER } = require('next/constants')
 
-module.exports = (phase, { defaultConfig }) => {
+module.exports = (phase) => {
   const moduleExports = {
     reactStrictMode: true,
   }

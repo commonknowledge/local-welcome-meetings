@@ -1,18 +1,16 @@
-import { getHubspotContactsInList, updateHubspotContact } from './hubspot'
 import env from 'env-var'
-import { supabase } from './supabase'
+import { sortedUniqBy } from 'lodash'
 import {
   Profile,
-  ShiftPattern,
   ShiftAllocation,
   ShiftException,
+  ShiftPattern,
 } from '../types/app'
-import { NextApiRequestCookies } from 'next/dist/server/api-utils'
-import { ScheduledDate, nextDateForProfile, calculateSchedule } from './rota'
-import { sortedUniqBy } from 'lodash'
-import assert from 'assert'
-import { getAllRooms } from './room'
 import { asyncSome } from '../utils/array'
+import { getHubspotContactsInList, updateHubspotContact } from './hubspot'
+import { getAllRooms } from './room'
+import { calculateSchedule, nextDateForProfile } from './rota'
+import { supabase } from './supabase'
 
 export type UpsertProfile = Pick<Profile, 'email'> & Partial<Profile>
 

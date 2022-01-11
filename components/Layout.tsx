@@ -1,17 +1,15 @@
-import { Logo } from './Branding'
-import { useUser } from '../data/auth'
-import { useRoom } from '../data/room'
-import { useRouter } from 'next/dist/client/router'
+import { Menu, Transition } from '@headlessui/react'
+import { LogoutIcon, PencilIcon } from '@heroicons/react/outline'
+import { ChevronDownIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import { LogoutIcon, PencilIcon } from '@heroicons/react/outline'
+import { useUser } from '../data/auth'
+import { useRoom } from '../data/room'
+import { Logo } from './Branding'
 
 export function Header() {
   const { room } = useRoom()
   const { isLoggedIn, signOut, signIn } = useUser()
-  const router = useRouter()
 
   return (
     <header className='bg-adhdPurple p-3 sm:p-4 text-adhdBlue'>
@@ -112,7 +110,7 @@ export function Loading() {
 }
 
 export function MenuLink(props: any) {
-  let { href, children, ...rest } = props
+  const { href, children, ...rest } = props
   return (
     <Link href={href}>
       <a {...rest}>{children}</a>

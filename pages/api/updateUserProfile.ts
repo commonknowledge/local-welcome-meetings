@@ -16,5 +16,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.status(200).end()
 }
 
-// @ts-ignore
 export default withSentry(handler)

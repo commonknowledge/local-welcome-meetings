@@ -1,27 +1,28 @@
 import {
   AuthChangeEvent,
   Session,
-  User,
   SupabaseRealtimePayload,
+  User,
 } from '@supabase/supabase-js'
-import { useState, useEffect, createContext } from 'react'
-import { supabase } from './supabase'
-import { Profile, RoomPermission } from '../types/app'
 import { debounce } from 'lodash'
-import { useContext } from 'react'
+import { useRouter } from 'next/dist/client/router'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
 import { CookieSetOptions } from 'universal-cookie'
-import { useRouter } from 'next/dist/client/router'
 import AuthModal from '../components/AuthModal'
+import { Profile, RoomPermission } from '../types/app'
+import { NO_OP } from '../utils/utils'
+import { supabase } from './supabase'
 
-interface IUserContext {
+export interface IUserContext {
   user: User | null
   isLoggedIn: boolean
   session: Session | null
   profile: Profile | null
   signOut: (routing?: boolean) => void
-  signIn: () => void
+  signIn: NO_OP
   permissions: RoomPermission[]
+  canManageShifts: boolean
 }
 
 export const UserContext = createContext<IUserContext>({
@@ -29,9 +30,10 @@ export const UserContext = createContext<IUserContext>({
   isLoggedIn: false,
   session: null,
   profile: null,
-  signOut: () => {},
-  signIn: () => {},
+  signOut: NO_OP,
+  signIn: NO_OP,
   permissions: [],
+  canManageShifts: false,
 })
 
 export async function getUserProfile(userId: string): Promise<Profile | null> {
@@ -120,12 +122,12 @@ export function UserContextProvider({ children, ...props }: any) {
         .on('*', (e) => void setUserProfile(e.new))
         .subscribe()
 
-      const authSub = supabase.auth.onAuthStateChange((event, session) => {
-        setUser(session?.user || null)
-        setSession(session)
+      const authSub = supabase.auth.onAuthStateChange((event, newSession) => {
+        setUser(newSession?.user || null)
+        setSession(newSession)
         // Send session to /api/auth route to set the auth cookie.
         // NOTE: this is only needed if you're doing SSR (getServerSideProps)!
-        getAuthCookie(event, session)
+        getAuthCookie(event, newSession)
       })
 
       return () => {
@@ -147,43 +149,43 @@ export function UserContextProvider({ children, ...props }: any) {
   }
 
   useEffect(() => {
-    if (!userProfile?.id) return () => {}
+    if (!userProfile?.id) {
+      return NO_OP
+    } else {
+      const unsubPermissions = subscribeToRoomPermissions(
+        userProfile.id,
+        () => userProfile?.id && updateRoomPermissions(userProfile.id),
+      )
 
-    const unsubPermissions = subscribeToRoomPermissions(
-      userProfile.id,
-      () => userProfile?.id && updateRoomPermissions(userProfile.id),
-    )
-
-    return () => unsubPermissions?.()
+      return () => unsubPermissions?.()
+    }
   }, [userProfile?.id])
 
-  useEffect(() => {
-    ;(async function getUserSessionData() {
-      const session = supabase.auth.session()
-      setSession(session)
+  const getUserSessionData = React.useCallback(async () => {
+    const newSession = supabase.auth.session()
+    setSession(newSession)
 
-      const user = supabase.auth.user()
-      setUser(user)
+    const newUser = supabase.auth.user()
+    setUser(newUser)
 
-      if (user) {
-        await getAuthCookie('SIGNED_IN', session)
-        await updateUserPermissions()
-        const profile = await getUserProfile(user.id)
-        setUserProfile(profile)
-        if (!profile) return
-        updateRoomPermissions(profile.id)
-      } else {
-        await getAuthCookie('SIGNED_OUT', session)
-      }
-    })()
-  }, [session, user?.id])
+    if (newUser) {
+      await getAuthCookie('SIGNED_IN', newSession)
+      await updateUserPermissions()
+      const profile = await getUserProfile(newUser.id)
+      setUserProfile(profile)
+      if (!profile) return
+      updateRoomPermissions(profile.id)
+    } else {
+      await getAuthCookie('SIGNED_OUT', newSession)
+    }
+  }, [])
+
+  useEffect(() => void getUserSessionData(), [getUserSessionData])
 
   useEffect(() => {
     if (user?.email) {
-      // @ts-ignore
-      window?.posthog?.identify?.(user.id)
-      // @ts-ignore
-      window?.posthog?.people?.set?.({
+      window.posthog?.identify?.(user.id)
+      window.posthog?.people?.set?.({
         supabase_user_id: user.id,
         email: user.email,
         $email: user.email,
@@ -227,7 +229,7 @@ export function UserContextProvider({ children, ...props }: any) {
   )
 }
 
-export function useUser() {
+export function useUser(): IUserContext {
   return useContext(UserContext)
 }
 
@@ -249,7 +251,7 @@ export async function resetPassword(email: string, redirectTo?: string) {
   )
 }
 
-export async function updatePassword(password: string) {
+export async function updatePasswordOnSupabase(password: string) {
   return supabase.auth.update({ password })
 }
 
