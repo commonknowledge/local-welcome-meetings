@@ -1,4 +1,4 @@
-import { definitions } from './supabase';
+import { definitions } from './supabase'
 
 export type Room = definitions['room'] & {
   timerState: 'playing' | 'stopped' | 'hidden'
@@ -11,9 +11,9 @@ export type ShiftPattern = definitions['shiftpattern']
 export type ShiftAllocation = definitions['shiftallocation']
 
 export enum RoomPermissionType {
-  Join ='join',
+  Join = 'join',
   Lead = 'lead',
-  Manage = 'manage'
+  Manage = 'manage',
 }
 
 export type RoomPermission = definitions['roompermission'] & {
@@ -21,8 +21,8 @@ export type RoomPermission = definitions['roompermission'] & {
 }
 
 export enum ShiftExceptionType {
-  DropOut ='drop_out',
-  FillIn = 'fill_in'
+  DropOut = 'drop_out',
+  FillIn = 'fill_in',
 }
 
 export type ShiftException = definitions['shiftexception'] & {

@@ -7,18 +7,23 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ![Session call view](public/screenshots/call.png)
 
 ### Rooms directory
+
 ![Session call view](public/screenshots/directory.png)
 
 ### Magic link sign-in
+
 ![Session call view](public/screenshots/signin.png)
 
 ### Scheduling
+
 TODO:
 
 ### Calendar
+
 TODO:
 
 ### Ical subscription URL
+
 TODO:::
 
 ## Getting Started

@@ -1,6 +1,6 @@
-export function passThroughLog <T>(result: T, prettyPrint?: boolean): T {
+export function passThroughLog<T>(result: T, prettyPrint?: boolean): T {
   if (prettyPrint) {
-    console.debug(JSON.stringify(result, null, 2));
+    console.debug(JSON.stringify(result, null, 2))
   } else {
     console.debug(result)
   }

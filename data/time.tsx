@@ -1,12 +1,12 @@
-import { isServer } from '../styles/screens';
+import { isServer } from '../styles/screens'
 import { create } from 'timesync/dist/timesync'
-import { useEffect, useRef, useState, createContext, useContext } from 'react';
+import { useEffect, useRef, useState, createContext, useContext } from 'react'
 
 const initialContext = {
   offset: 0,
   createServerDate: (d: Date) => new Date(d.getTime() + 0),
   getServerDate: () => new Date(),
-  connectionEstablished: false
+  connectionEstablished: false,
 }
 
 export type ITimeContext = typeof initialContext
@@ -15,8 +15,8 @@ export const TimeContext = createContext(initialContext)
 
 export const TimeProvider = ({ children }: { children?: any }) => {
   const ts = useRef<{
-    on(event: string, fn: (offset: number) =>void ): void,
-    now(): number,
+    on(event: string, fn: (offset: number) => void): void
+    now(): number
     destroy(): void
   }>()
 
@@ -26,7 +26,7 @@ export const TimeProvider = ({ children }: { children?: any }) => {
     offset,
     getServerDate: () => new Date(ts.current?.now() || new Date()),
     createServerDate: (date) => new Date(date.getTime() + offset),
-    connectionEstablished: ts.current?.now() !== undefined
+    connectionEstablished: ts.current?.now() !== undefined,
   }
 
   useEffect(() => {
@@ -34,12 +34,12 @@ export const TimeProvider = ({ children }: { children?: any }) => {
 
     ts.current = create({
       server: new URL('/api/time', window.location.toString()),
-      interval: 10000
-    });
+      interval: 10000,
+    })
 
     // get notified on changes in the offset
-    ts.current?.on('change', function (offset) {
-      setOffset(offset)
+    ts.current?.on('change', function (newOffset) {
+      setOffset(newOffset)
     })
 
     return () => ts.current?.destroy()

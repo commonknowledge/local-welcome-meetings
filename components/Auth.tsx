@@ -1,11 +1,9 @@
-import { ClockIcon, LockClosedIcon } from '@heroicons/react/solid'
-import { login, resetPassword, updatePassword, useUser } from '../data/auth';
-import { useState, useEffect } from 'react';
-import { ShowFor } from './Elements';
-import { useForm } from 'react-hook-form';
-import { supabase } from '../data/supabase';
-import Link from 'next/link';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/dist/client/router'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { resetPassword, updatePasswordOnSupabase } from '../data/auth'
+import { supabase } from '../data/supabase'
+import { ShowFor } from './Elements'
 
 type RedirectTo = undefined | string
 
@@ -26,17 +24,29 @@ const VIEWS: {
   UPDATE_PASSWORD: 'update_password',
 }
 
-export default function Auth({ view, redirectTo = '/' }: { view?: ViewType, redirectTo?: RedirectTo }) {
+export default function Auth({
+  view,
+  redirectTo = '/',
+}: {
+  view?: ViewType
+  redirectTo?: RedirectTo
+}) {
   return (
-    <section className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-5">
-      <div className="max-w-md w-full">
+    <section className='flex items-center justify-center bg-white rounded-lg p-4 sm:p-5'>
+      <div className='max-w-md w-full'>
         <AuthView view={view} redirectTo={redirectTo} />
       </div>
     </section>
   )
 }
 
-export function AuthView({ view, redirectTo }: { view?: ViewType, redirectTo?: RedirectTo }) {
+export function AuthView({
+  view,
+  redirectTo,
+}: {
+  view?: ViewType
+  redirectTo?: RedirectTo
+}) {
   const [authView, setAuthView] = useState<ViewType>(view || 'sign_in')
   const [defaultEmail, setDefaultEmail] = useState('')
   const [defaultPassword, setDefaultPassword] = useState('')
@@ -54,7 +64,7 @@ export function AuthView({ view, redirectTo }: { view?: ViewType, redirectTo?: R
           setDefaultEmail={setDefaultEmail}
           setDefaultPassword={setDefaultPassword}
           redirectTo={redirectTo}
-        // magicLink={magicLink}
+          // magicLink={magicLink}
         />
       )
     case 'forgotten_password':
@@ -68,9 +78,7 @@ export function AuthView({ view, redirectTo }: { view?: ViewType, redirectTo?: R
       )
 
     case 'update_password':
-      return (
-        <UpdatePassword />
-      )
+      return <UpdatePassword />
 
     default:
       return null
@@ -86,8 +94,8 @@ function EmailAuth({
   setDefaultEmail,
   setDefaultPassword,
   redirectTo,
-  // magicLink,
-}: {
+}: // magicLink,
+{
   authView: ViewType
   defaultEmail: string
   defaultPassword: string
@@ -103,9 +111,8 @@ function EmailAuth({
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  const defaultValues = { email: defaultEmail, password: defaultPassword, }
-  const { register, handleSubmit, watch } = useForm({ defaultValues });
-  const { password, email } = watch();
+  const defaultValues = { email: defaultEmail, password: defaultPassword }
+  const { register, handleSubmit, watch } = useForm({ defaultValues })
 
   const onSubmit = async ({ email, password }: typeof defaultValues) => {
     try {
@@ -115,10 +122,10 @@ function EmailAuth({
         case 'sign_in':
           const { error: signInError } = await supabase.auth.signIn(
             {
-              email,
+              email: email,
               password,
             },
-            { redirectTo }
+            { redirectTo },
           )
           if (signInError) setError(signInError.message)
           if (redirectTo) router.push(redirectTo)
@@ -127,14 +134,19 @@ function EmailAuth({
           const { error: signUpError, data: signUpData } =
             await supabase.auth.signUp(
               {
-                email,
+                email: email,
                 password,
               },
-              { redirectTo }
+              { redirectTo },
             )
           if (signUpError) setError(signUpError.message)
           // checking if it has access_token to know if email verification is disabled
-          else if (signUpData?.hasOwnProperty('confirmation_sent_at'))
+          else if (
+            Object.prototype.hasOwnProperty.call(
+              signUpData,
+              'confirmation_sent_at',
+            )
+          )
             setMessage('Check your email for the confirmation link.')
           break
       }
@@ -146,60 +158,75 @@ function EmailAuth({
     }
   }
 
-  const handleViewChange = (newView: ViewType) => {
-    setDefaultEmail(email)
-    setDefaultPassword(password)
-    setAuthView(newView)
-  }
+  const { password, email } = watch()
 
   return (
-    <form id={id} onSubmit={handleSubmit(onSubmit)} className='space-y-2 flex flex-col'>
+    <form
+      id={id}
+      onSubmit={handleSubmit(onSubmit)}
+      className='space-y-2 flex flex-col'
+    >
       <header className='text-center space-y-2 pb-2'>
-        <h2 className="max-w-sm mx-auto text-2xl font-extrabold text-gray-900 leading-tight">
+        <h2 className='max-w-sm mx-auto text-2xl font-extrabold text-gray-900 leading-tight'>
           Sign in
         </h2>
-        <p className='text-gray-600'>Use the same email address you receive ADHD Together reminders from.</p>
+        <p className='text-gray-600'>
+          Use the same email address you receive ADHD Together reminders from.
+        </p>
       </header>
-      <label htmlFor="email" className="sr-only">
+      <label htmlFor='email' className='sr-only'>
         Your ADHD Together email address
       </label>
       <input
-        type="email"
+        type='email'
         id='email'
         className='input'
-        autoComplete="email"
+        autoComplete='email'
         defaultValue={email}
         placeholder='Email address'
         {...register('email', { required: true })}
       />
       <input
         className='input'
-        type="password"
+        type='password'
         defaultValue={password}
-        autoComplete="current-password"
+        autoComplete='current-password'
         placeholder='Password'
         {...register('password', { required: true })}
       />
-      <button className='submit' type="submit">
-        {loading ? "Loading..." : authView === VIEWS.SIGN_IN ? 'Sign in' : 'Sign up'}
+      <button className='submit' type='submit'>
+        {loading
+          ? 'Loading...'
+          : authView === VIEWS.SIGN_IN
+          ? 'Sign in'
+          : 'Sign up'}
       </button>
-      {message && !error &&  <ShowFor seconds={10000000}>
-        <div className='text-center text-adhdPurple bg-green-100 px-4 py-2 mt-2 rounded-lg'>
-          {message}
-        </div>
-      </ShowFor>}
-      {error && <ShowFor seconds={10000000}>
-        <div className='text-center text-adhdPurple bg-red-100 px-4 py-2 mt-2 rounded-lg'>
-          {error}
-        </div>
-      </ShowFor>}
+      {message && !error && (
+        <ShowFor seconds={10000000}>
+          <div className='text-center text-adhdPurple bg-green-100 px-4 py-2 mt-2 rounded-lg'>
+            {message}
+          </div>
+        </ShowFor>
+      )}
+      {error && (
+        <ShowFor seconds={10000000}>
+          <div className='text-center text-adhdPurple bg-red-100 px-4 py-2 mt-2 rounded-lg'>
+            {error}
+          </div>
+        </ShowFor>
+      )}
       {/* {authView === VIEWS.SIGN_IN && magicLink && (
         <button className='button' onClick={(e) => { setAuthView(VIEWS.MAGIC_LINK) }}>
           Sign in with magic link
         </button>
       )} */}
       {authView === VIEWS.SIGN_IN && (
-        <button className='' onClick={() => { setAuthView(VIEWS.FORGOTTEN_PASSWORD) }} >
+        <button
+          className=''
+          onClick={() => {
+            setAuthView(VIEWS.FORGOTTEN_PASSWORD)
+          }}
+        >
           Forgot your password, or don&apos;t have one yet?
         </button>
       )}
@@ -234,8 +261,7 @@ function ForgottenPassword({
   const [message, setMessage] = useState('')
 
   const defaultValues = { email: defaultEmail }
-  const { register, handleSubmit, watch } = useForm({ defaultValues });
-  const { email } = watch();
+  const { register, handleSubmit, watch } = useForm({ defaultValues })
 
   const onSubmit = async ({ email }: typeof defaultValues) => {
     try {
@@ -250,6 +276,7 @@ function ForgottenPassword({
     }
   }
 
+  const { email } = watch()
   const handleViewChange = (newView: ViewType) => {
     setDefaultEmail(email)
     setAuthView(newView)
@@ -258,33 +285,43 @@ function ForgottenPassword({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-2 flex flex-col'>
       <header className='text-center space-y-2 pb-2'>
-        <h2 className="max-w-sm mx-auto text-2xl font-extrabold text-gray-900 leading-tight">
+        <h2 className='max-w-sm mx-auto text-2xl font-extrabold text-gray-900 leading-tight'>
           Reset your password
         </h2>
-        <p className='text-gray-600'>You&apos;ll get an email with a link to reset it.</p>
+        <p className='text-gray-600'>
+          You&apos;ll get an email with a link to reset it.
+        </p>
       </header>
       <input
-        type="email"
+        type='email'
         className='input'
-        autoComplete="email"
+        autoComplete='email'
         defaultValue={email}
         placeholder='Email address'
         {...register('email', { required: true })}
       />
-      <button className='submit' type="submit">
-        {loading ? "Loading..." : 'Send reset password instructions'}
+      <button className='submit' type='submit'>
+        {loading ? 'Loading...' : 'Send reset password instructions'}
       </button>
-      {message && !error &&  <ShowFor seconds={10000000}>
-        <div className='text-center text-adhdPurple bg-green-100 px-4 py-2 mt-2 rounded-lg'>
-          {message}
-        </div>
-      </ShowFor>}
-      {error && <ShowFor seconds={10000000}>
-        <div className='text-center text-adhdPurple bg-red-100 px-4 py-2 mt-2 rounded-lg'>
-          {error}
-        </div>
-      </ShowFor>}
-      <button onClick={(e) => { handleViewChange(VIEWS.SIGN_IN) }}>
+      {message && !error && (
+        <ShowFor seconds={10000000}>
+          <div className='text-center text-adhdPurple bg-green-100 px-4 py-2 mt-2 rounded-lg'>
+            {message}
+          </div>
+        </ShowFor>
+      )}
+      {error && (
+        <ShowFor seconds={10000000}>
+          <div className='text-center text-adhdPurple bg-red-100 px-4 py-2 mt-2 rounded-lg'>
+            {error}
+          </div>
+        </ShowFor>
+      )}
+      <button
+        onClick={(e) => {
+          handleViewChange(VIEWS.SIGN_IN)
+        }}
+      >
         Go back to sign in
       </button>
     </form>
@@ -293,22 +330,21 @@ function ForgottenPassword({
 
 /////
 
-function UpdatePassword({ }: {}) {
+const UpdatePassword: React.FunctionComponent = () => {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   const defaultValues = { password: '' }
-  const { register, handleSubmit, watch } = useForm({ defaultValues });
-  const { password } = watch();
+  const { register, handleSubmit, watch } = useForm({ defaultValues })
 
   const onSubmit = async ({ password }: typeof defaultValues) => {
     try {
       setError('')
       setMessage('')
       setLoading(true)
-      const { error } = await updatePassword(password)
-      if (error) setError(error.message)
+      const { error: err } = await updatePasswordOnSupabase(password)
+      if (err) setError(err.message)
     } catch (e) {
       setError(String(e))
     } finally {
@@ -319,36 +355,40 @@ function UpdatePassword({ }: {}) {
     }
   }
 
-  const user = useUser()
+  const { password } = watch()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-2 flex flex-col'>
       <header className='text-center space-y-2 pb-2'>
-        <h2 className="max-w-sm mx-auto text-2xl font-extrabold text-gray-900 leading-tight">
+        <h2 className='max-w-sm mx-auto text-2xl font-extrabold text-gray-900 leading-tight'>
           Update your password
         </h2>
       </header>
       <input
         type='password'
         className='input'
-        autoComplete="password"
+        autoComplete='password'
         defaultValue={password}
         placeholder='Password'
         {...register('password', { required: true })}
       />
-      <button className='submit' type="submit">
-        {loading ? "Loading..." : 'Update password'}
+      <button className='submit' type='submit'>
+        {loading ? 'Loading...' : 'Update password'}
       </button>
-      {message && !error && <ShowFor seconds={10000000}>
-        <div className='text-center text-adhdPurple bg-green-100 px-4 py-2 mt-2 rounded-lg'>
-          {message}
-        </div>
-      </ShowFor>}
-      {error && <ShowFor seconds={10000000}>
-        <div className='text-center text-adhdPurple bg-red-100 px-4 py-2 mt-2 rounded-lg'>
-          {error}
-        </div>
-      </ShowFor>}
+      {message && !error && (
+        <ShowFor seconds={10000000}>
+          <div className='text-center text-adhdPurple bg-green-100 px-4 py-2 mt-2 rounded-lg'>
+            {message}
+          </div>
+        </ShowFor>
+      )}
+      {error && (
+        <ShowFor seconds={10000000}>
+          <div className='text-center text-adhdPurple bg-red-100 px-4 py-2 mt-2 rounded-lg'>
+            {error}
+          </div>
+        </ShowFor>
+      )}
     </form>
   )
 }

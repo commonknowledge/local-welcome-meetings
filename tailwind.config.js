@@ -2,15 +2,10 @@
 /** @typedef { import('tailwindcss/defaultTheme') } DefaultTheme */
 /** @typedef { DefaultConfig & { theme: { extend: DefaultTheme } } } TailwindConfig */
 
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 /** @type {TailwindConfig} */
 module.exports = {
-  mode: "jit",
-  purge: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}'
-  ],
+  mode: 'jit',
+  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     screens: {
@@ -33,10 +28,10 @@ module.exports = {
     },
     space: {
       0: '0px',
-      '1px': "1px",
-      '2px': "2px",
-      '3px': "3px",
-      '4px': "4px",
+      '1px': '1px',
+      '2px': '2px',
+      '3px': '3px',
+      '4px': '4px',
       1: '5px',
       2: '10px',
       3: '15px',
@@ -54,15 +49,12 @@ module.exports = {
         adhdPurple: '#2F0927',
       },
       maxWidth: {
-        full: "100%"
+        full: '100%',
       },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-    require('@tailwindcss/forms')
-  ],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],
 }

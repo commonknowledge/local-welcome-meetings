@@ -4,916 +4,916 @@
  */
 
 export interface paths {
-  "/": {
+  '/': {
     get: {
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/profile": {
+        200: unknown
+      }
+    }
+  }
+  '/profile': {
     get: {
       parameters: {
         query: {
-          insertedAt?: parameters["rowFilter.profile.insertedAt"];
-          updatedAt?: parameters["rowFilter.profile.updatedAt"];
-          canLeadSessions?: parameters["rowFilter.profile.canLeadSessions"];
-          firstName?: parameters["rowFilter.profile.firstName"];
-          lastName?: parameters["rowFilter.profile.lastName"];
-          userId?: parameters["rowFilter.profile.userId"];
-          canManageShifts?: parameters["rowFilter.profile.canManageShifts"];
-          email?: parameters["rowFilter.profile.email"];
-          id?: parameters["rowFilter.profile.id"];
-          hubspotContactId?: parameters["rowFilter.profile.hubspotContactId"];
+          insertedAt?: parameters['rowFilter.profile.insertedAt']
+          updatedAt?: parameters['rowFilter.profile.updatedAt']
+          canLeadSessions?: parameters['rowFilter.profile.canLeadSessions']
+          firstName?: parameters['rowFilter.profile.firstName']
+          lastName?: parameters['rowFilter.profile.lastName']
+          userId?: parameters['rowFilter.profile.userId']
+          canManageShifts?: parameters['rowFilter.profile.canManageShifts']
+          email?: parameters['rowFilter.profile.email']
+          id?: parameters['rowFilter.profile.id']
+          hubspotContactId?: parameters['rowFilter.profile.hubspotContactId']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["profile"][];
-        };
+          schema: definitions['profile'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** profile */
-          profile?: definitions["profile"];
-        };
+          profile?: definitions['profile']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          insertedAt?: parameters["rowFilter.profile.insertedAt"];
-          updatedAt?: parameters["rowFilter.profile.updatedAt"];
-          canLeadSessions?: parameters["rowFilter.profile.canLeadSessions"];
-          firstName?: parameters["rowFilter.profile.firstName"];
-          lastName?: parameters["rowFilter.profile.lastName"];
-          userId?: parameters["rowFilter.profile.userId"];
-          canManageShifts?: parameters["rowFilter.profile.canManageShifts"];
-          email?: parameters["rowFilter.profile.email"];
-          id?: parameters["rowFilter.profile.id"];
-          hubspotContactId?: parameters["rowFilter.profile.hubspotContactId"];
-        };
+          insertedAt?: parameters['rowFilter.profile.insertedAt']
+          updatedAt?: parameters['rowFilter.profile.updatedAt']
+          canLeadSessions?: parameters['rowFilter.profile.canLeadSessions']
+          firstName?: parameters['rowFilter.profile.firstName']
+          lastName?: parameters['rowFilter.profile.lastName']
+          userId?: parameters['rowFilter.profile.userId']
+          canManageShifts?: parameters['rowFilter.profile.canManageShifts']
+          email?: parameters['rowFilter.profile.email']
+          id?: parameters['rowFilter.profile.id']
+          hubspotContactId?: parameters['rowFilter.profile.hubspotContactId']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          insertedAt?: parameters["rowFilter.profile.insertedAt"];
-          updatedAt?: parameters["rowFilter.profile.updatedAt"];
-          canLeadSessions?: parameters["rowFilter.profile.canLeadSessions"];
-          firstName?: parameters["rowFilter.profile.firstName"];
-          lastName?: parameters["rowFilter.profile.lastName"];
-          userId?: parameters["rowFilter.profile.userId"];
-          canManageShifts?: parameters["rowFilter.profile.canManageShifts"];
-          email?: parameters["rowFilter.profile.email"];
-          id?: parameters["rowFilter.profile.id"];
-          hubspotContactId?: parameters["rowFilter.profile.hubspotContactId"];
-        };
+          insertedAt?: parameters['rowFilter.profile.insertedAt']
+          updatedAt?: parameters['rowFilter.profile.updatedAt']
+          canLeadSessions?: parameters['rowFilter.profile.canLeadSessions']
+          firstName?: parameters['rowFilter.profile.firstName']
+          lastName?: parameters['rowFilter.profile.lastName']
+          userId?: parameters['rowFilter.profile.userId']
+          canManageShifts?: parameters['rowFilter.profile.canManageShifts']
+          email?: parameters['rowFilter.profile.email']
+          id?: parameters['rowFilter.profile.id']
+          hubspotContactId?: parameters['rowFilter.profile.hubspotContactId']
+        }
         body: {
           /** profile */
-          profile?: definitions["profile"];
-        };
+          profile?: definitions['profile']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/room": {
+        204: never
+      }
+    }
+  }
+  '/room': {
     get: {
       parameters: {
         query: {
           /** Human readable name. */
-          name?: parameters["rowFilter.room.name"];
+          name?: parameters['rowFilter.room.name']
           /** URL path to access this room. */
-          slug?: parameters["rowFilter.room.slug"];
+          slug?: parameters['rowFilter.room.slug']
           /** Notion property. */
-          slideshowName?: parameters["rowFilter.room.slideshowName"];
+          slideshowName?: parameters['rowFilter.room.slideshowName']
           /** Notion ID. */
-          currentSlideIndex?: parameters["rowFilter.room.currentSlideIndex"];
-          timerState?: parameters["rowFilter.room.timerState"];
-          timerStartTime?: parameters["rowFilter.room.timerStartTime"];
-          timerDuration?: parameters["rowFilter.room.timerDuration"];
-          wherebyMeetingId?: parameters["rowFilter.room.wherebyMeetingId"];
-          wherebyStartDate?: parameters["rowFilter.room.wherebyStartDate"];
-          wherebyEndDate?: parameters["rowFilter.room.wherebyEndDate"];
-          wherebyRoomUrl?: parameters["rowFilter.room.wherebyRoomUrl"];
-          wherebyHostRoomUrl?: parameters["rowFilter.room.wherebyHostRoomUrl"];
-          id?: parameters["rowFilter.room.id"];
-          hubspotLeaderListId?: parameters["rowFilter.room.hubspotLeaderListId"];
-          updatedAt?: parameters["rowFilter.room.updatedAt"];
+          currentSlideIndex?: parameters['rowFilter.room.currentSlideIndex']
+          timerState?: parameters['rowFilter.room.timerState']
+          timerStartTime?: parameters['rowFilter.room.timerStartTime']
+          timerDuration?: parameters['rowFilter.room.timerDuration']
+          wherebyMeetingId?: parameters['rowFilter.room.wherebyMeetingId']
+          wherebyStartDate?: parameters['rowFilter.room.wherebyStartDate']
+          wherebyEndDate?: parameters['rowFilter.room.wherebyEndDate']
+          wherebyRoomUrl?: parameters['rowFilter.room.wherebyRoomUrl']
+          wherebyHostRoomUrl?: parameters['rowFilter.room.wherebyHostRoomUrl']
+          id?: parameters['rowFilter.room.id']
+          hubspotLeaderListId?: parameters['rowFilter.room.hubspotLeaderListId']
+          updatedAt?: parameters['rowFilter.room.updatedAt']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["room"][];
-        };
+          schema: definitions['room'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** room */
-          room?: definitions["room"];
-        };
+          room?: definitions['room']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
           /** Human readable name. */
-          name?: parameters["rowFilter.room.name"];
+          name?: parameters['rowFilter.room.name']
           /** URL path to access this room. */
-          slug?: parameters["rowFilter.room.slug"];
+          slug?: parameters['rowFilter.room.slug']
           /** Notion property. */
-          slideshowName?: parameters["rowFilter.room.slideshowName"];
+          slideshowName?: parameters['rowFilter.room.slideshowName']
           /** Notion ID. */
-          currentSlideIndex?: parameters["rowFilter.room.currentSlideIndex"];
-          timerState?: parameters["rowFilter.room.timerState"];
-          timerStartTime?: parameters["rowFilter.room.timerStartTime"];
-          timerDuration?: parameters["rowFilter.room.timerDuration"];
-          wherebyMeetingId?: parameters["rowFilter.room.wherebyMeetingId"];
-          wherebyStartDate?: parameters["rowFilter.room.wherebyStartDate"];
-          wherebyEndDate?: parameters["rowFilter.room.wherebyEndDate"];
-          wherebyRoomUrl?: parameters["rowFilter.room.wherebyRoomUrl"];
-          wherebyHostRoomUrl?: parameters["rowFilter.room.wherebyHostRoomUrl"];
-          id?: parameters["rowFilter.room.id"];
-          hubspotLeaderListId?: parameters["rowFilter.room.hubspotLeaderListId"];
-          updatedAt?: parameters["rowFilter.room.updatedAt"];
-        };
+          currentSlideIndex?: parameters['rowFilter.room.currentSlideIndex']
+          timerState?: parameters['rowFilter.room.timerState']
+          timerStartTime?: parameters['rowFilter.room.timerStartTime']
+          timerDuration?: parameters['rowFilter.room.timerDuration']
+          wherebyMeetingId?: parameters['rowFilter.room.wherebyMeetingId']
+          wherebyStartDate?: parameters['rowFilter.room.wherebyStartDate']
+          wherebyEndDate?: parameters['rowFilter.room.wherebyEndDate']
+          wherebyRoomUrl?: parameters['rowFilter.room.wherebyRoomUrl']
+          wherebyHostRoomUrl?: parameters['rowFilter.room.wherebyHostRoomUrl']
+          id?: parameters['rowFilter.room.id']
+          hubspotLeaderListId?: parameters['rowFilter.room.hubspotLeaderListId']
+          updatedAt?: parameters['rowFilter.room.updatedAt']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
           /** Human readable name. */
-          name?: parameters["rowFilter.room.name"];
+          name?: parameters['rowFilter.room.name']
           /** URL path to access this room. */
-          slug?: parameters["rowFilter.room.slug"];
+          slug?: parameters['rowFilter.room.slug']
           /** Notion property. */
-          slideshowName?: parameters["rowFilter.room.slideshowName"];
+          slideshowName?: parameters['rowFilter.room.slideshowName']
           /** Notion ID. */
-          currentSlideIndex?: parameters["rowFilter.room.currentSlideIndex"];
-          timerState?: parameters["rowFilter.room.timerState"];
-          timerStartTime?: parameters["rowFilter.room.timerStartTime"];
-          timerDuration?: parameters["rowFilter.room.timerDuration"];
-          wherebyMeetingId?: parameters["rowFilter.room.wherebyMeetingId"];
-          wherebyStartDate?: parameters["rowFilter.room.wherebyStartDate"];
-          wherebyEndDate?: parameters["rowFilter.room.wherebyEndDate"];
-          wherebyRoomUrl?: parameters["rowFilter.room.wherebyRoomUrl"];
-          wherebyHostRoomUrl?: parameters["rowFilter.room.wherebyHostRoomUrl"];
-          id?: parameters["rowFilter.room.id"];
-          hubspotLeaderListId?: parameters["rowFilter.room.hubspotLeaderListId"];
-          updatedAt?: parameters["rowFilter.room.updatedAt"];
-        };
+          currentSlideIndex?: parameters['rowFilter.room.currentSlideIndex']
+          timerState?: parameters['rowFilter.room.timerState']
+          timerStartTime?: parameters['rowFilter.room.timerStartTime']
+          timerDuration?: parameters['rowFilter.room.timerDuration']
+          wherebyMeetingId?: parameters['rowFilter.room.wherebyMeetingId']
+          wherebyStartDate?: parameters['rowFilter.room.wherebyStartDate']
+          wherebyEndDate?: parameters['rowFilter.room.wherebyEndDate']
+          wherebyRoomUrl?: parameters['rowFilter.room.wherebyRoomUrl']
+          wherebyHostRoomUrl?: parameters['rowFilter.room.wherebyHostRoomUrl']
+          id?: parameters['rowFilter.room.id']
+          hubspotLeaderListId?: parameters['rowFilter.room.hubspotLeaderListId']
+          updatedAt?: parameters['rowFilter.room.updatedAt']
+        }
         body: {
           /** room */
-          room?: definitions["room"];
-        };
+          room?: definitions['room']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/roompermission": {
+        204: never
+      }
+    }
+  }
+  '/roompermission': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.roompermission.id"];
+          id?: parameters['rowFilter.roompermission.id']
           /** member | leader | manager */
-          type?: parameters["rowFilter.roompermission.type"];
-          updatedAt?: parameters["rowFilter.roompermission.updatedAt"];
-          profileId?: parameters["rowFilter.roompermission.profileId"];
-          roomId?: parameters["rowFilter.roompermission.roomId"];
+          type?: parameters['rowFilter.roompermission.type']
+          updatedAt?: parameters['rowFilter.roompermission.updatedAt']
+          profileId?: parameters['rowFilter.roompermission.profileId']
+          roomId?: parameters['rowFilter.roompermission.roomId']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["roompermission"][];
-        };
+          schema: definitions['roompermission'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** roompermission */
-          roompermission?: definitions["roompermission"];
-        };
+          roompermission?: definitions['roompermission']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.roompermission.id"];
+          id?: parameters['rowFilter.roompermission.id']
           /** member | leader | manager */
-          type?: parameters["rowFilter.roompermission.type"];
-          updatedAt?: parameters["rowFilter.roompermission.updatedAt"];
-          profileId?: parameters["rowFilter.roompermission.profileId"];
-          roomId?: parameters["rowFilter.roompermission.roomId"];
-        };
+          type?: parameters['rowFilter.roompermission.type']
+          updatedAt?: parameters['rowFilter.roompermission.updatedAt']
+          profileId?: parameters['rowFilter.roompermission.profileId']
+          roomId?: parameters['rowFilter.roompermission.roomId']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.roompermission.id"];
+          id?: parameters['rowFilter.roompermission.id']
           /** member | leader | manager */
-          type?: parameters["rowFilter.roompermission.type"];
-          updatedAt?: parameters["rowFilter.roompermission.updatedAt"];
-          profileId?: parameters["rowFilter.roompermission.profileId"];
-          roomId?: parameters["rowFilter.roompermission.roomId"];
-        };
+          type?: parameters['rowFilter.roompermission.type']
+          updatedAt?: parameters['rowFilter.roompermission.updatedAt']
+          profileId?: parameters['rowFilter.roompermission.profileId']
+          roomId?: parameters['rowFilter.roompermission.roomId']
+        }
         body: {
           /** roompermission */
-          roompermission?: definitions["roompermission"];
-        };
+          roompermission?: definitions['roompermission']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/shiftallocation": {
+        204: never
+      }
+    }
+  }
+  '/shiftallocation': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.shiftallocation.id"];
-          shiftPatternId?: parameters["rowFilter.shiftallocation.shiftPatternId"];
-          profileId?: parameters["rowFilter.shiftallocation.profileId"];
-          updatedAt?: parameters["rowFilter.shiftallocation.updatedAt"];
+          id?: parameters['rowFilter.shiftallocation.id']
+          shiftPatternId?: parameters['rowFilter.shiftallocation.shiftPatternId']
+          profileId?: parameters['rowFilter.shiftallocation.profileId']
+          updatedAt?: parameters['rowFilter.shiftallocation.updatedAt']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["shiftallocation"][];
-        };
+          schema: definitions['shiftallocation'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** shiftallocation */
-          shiftallocation?: definitions["shiftallocation"];
-        };
+          shiftallocation?: definitions['shiftallocation']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.shiftallocation.id"];
-          shiftPatternId?: parameters["rowFilter.shiftallocation.shiftPatternId"];
-          profileId?: parameters["rowFilter.shiftallocation.profileId"];
-          updatedAt?: parameters["rowFilter.shiftallocation.updatedAt"];
-        };
+          id?: parameters['rowFilter.shiftallocation.id']
+          shiftPatternId?: parameters['rowFilter.shiftallocation.shiftPatternId']
+          profileId?: parameters['rowFilter.shiftallocation.profileId']
+          updatedAt?: parameters['rowFilter.shiftallocation.updatedAt']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.shiftallocation.id"];
-          shiftPatternId?: parameters["rowFilter.shiftallocation.shiftPatternId"];
-          profileId?: parameters["rowFilter.shiftallocation.profileId"];
-          updatedAt?: parameters["rowFilter.shiftallocation.updatedAt"];
-        };
+          id?: parameters['rowFilter.shiftallocation.id']
+          shiftPatternId?: parameters['rowFilter.shiftallocation.shiftPatternId']
+          profileId?: parameters['rowFilter.shiftallocation.profileId']
+          updatedAt?: parameters['rowFilter.shiftallocation.updatedAt']
+        }
         body: {
           /** shiftallocation */
-          shiftallocation?: definitions["shiftallocation"];
-        };
+          shiftallocation?: definitions['shiftallocation']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/shiftexception": {
+        204: never
+      }
+    }
+  }
+  '/shiftexception': {
     get: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.shiftexception.id"];
-          shiftPatternId?: parameters["rowFilter.shiftexception.shiftPatternId"];
-          date?: parameters["rowFilter.shiftexception.date"];
-          profileId?: parameters["rowFilter.shiftexception.profileId"];
+          id?: parameters['rowFilter.shiftexception.id']
+          shiftPatternId?: parameters['rowFilter.shiftexception.shiftPatternId']
+          date?: parameters['rowFilter.shiftexception.date']
+          profileId?: parameters['rowFilter.shiftexception.profileId']
           /** drop_out or drop_in */
-          type?: parameters["rowFilter.shiftexception.type"];
-          lastUpdated?: parameters["rowFilter.shiftexception.lastUpdated"];
-          shiftAllocationId?: parameters["rowFilter.shiftexception.shiftAllocationId"];
+          type?: parameters['rowFilter.shiftexception.type']
+          lastUpdated?: parameters['rowFilter.shiftexception.lastUpdated']
+          shiftAllocationId?: parameters['rowFilter.shiftexception.shiftAllocationId']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["shiftexception"][];
-        };
+          schema: definitions['shiftexception'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** shiftexception */
-          shiftexception?: definitions["shiftexception"];
-        };
+          shiftexception?: definitions['shiftexception']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.shiftexception.id"];
-          shiftPatternId?: parameters["rowFilter.shiftexception.shiftPatternId"];
-          date?: parameters["rowFilter.shiftexception.date"];
-          profileId?: parameters["rowFilter.shiftexception.profileId"];
+          id?: parameters['rowFilter.shiftexception.id']
+          shiftPatternId?: parameters['rowFilter.shiftexception.shiftPatternId']
+          date?: parameters['rowFilter.shiftexception.date']
+          profileId?: parameters['rowFilter.shiftexception.profileId']
           /** drop_out or drop_in */
-          type?: parameters["rowFilter.shiftexception.type"];
-          lastUpdated?: parameters["rowFilter.shiftexception.lastUpdated"];
-          shiftAllocationId?: parameters["rowFilter.shiftexception.shiftAllocationId"];
-        };
+          type?: parameters['rowFilter.shiftexception.type']
+          lastUpdated?: parameters['rowFilter.shiftexception.lastUpdated']
+          shiftAllocationId?: parameters['rowFilter.shiftexception.shiftAllocationId']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          id?: parameters["rowFilter.shiftexception.id"];
-          shiftPatternId?: parameters["rowFilter.shiftexception.shiftPatternId"];
-          date?: parameters["rowFilter.shiftexception.date"];
-          profileId?: parameters["rowFilter.shiftexception.profileId"];
+          id?: parameters['rowFilter.shiftexception.id']
+          shiftPatternId?: parameters['rowFilter.shiftexception.shiftPatternId']
+          date?: parameters['rowFilter.shiftexception.date']
+          profileId?: parameters['rowFilter.shiftexception.profileId']
           /** drop_out or drop_in */
-          type?: parameters["rowFilter.shiftexception.type"];
-          lastUpdated?: parameters["rowFilter.shiftexception.lastUpdated"];
-          shiftAllocationId?: parameters["rowFilter.shiftexception.shiftAllocationId"];
-        };
+          type?: parameters['rowFilter.shiftexception.type']
+          lastUpdated?: parameters['rowFilter.shiftexception.lastUpdated']
+          shiftAllocationId?: parameters['rowFilter.shiftexception.shiftAllocationId']
+        }
         body: {
           /** shiftexception */
-          shiftexception?: definitions["shiftexception"];
-        };
+          shiftexception?: definitions['shiftexception']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/shiftpattern": {
+        204: never
+      }
+    }
+  }
+  '/shiftpattern': {
     get: {
       parameters: {
         query: {
-          name?: parameters["rowFilter.shiftpattern.name"];
-          required_people?: parameters["rowFilter.shiftpattern.required_people"];
-          id?: parameters["rowFilter.shiftpattern.id"];
-          roomId?: parameters["rowFilter.shiftpattern.roomId"];
-          updatedAt?: parameters["rowFilter.shiftpattern.updatedAt"];
-          cron?: parameters["rowFilter.shiftpattern.cron"];
-          allowOneOffAllocations?: parameters["rowFilter.shiftpattern.allowOneOffAllocations"];
-          cronTimezone?: parameters["rowFilter.shiftpattern.cronTimezone"];
+          name?: parameters['rowFilter.shiftpattern.name']
+          required_people?: parameters['rowFilter.shiftpattern.required_people']
+          id?: parameters['rowFilter.shiftpattern.id']
+          roomId?: parameters['rowFilter.shiftpattern.roomId']
+          updatedAt?: parameters['rowFilter.shiftpattern.updatedAt']
+          cron?: parameters['rowFilter.shiftpattern.cron']
+          allowOneOffAllocations?: parameters['rowFilter.shiftpattern.allowOneOffAllocations']
+          cronTimezone?: parameters['rowFilter.shiftpattern.cronTimezone']
           /** Filtering Columns */
-          select?: parameters["select"];
+          select?: parameters['select']
           /** Ordering */
-          order?: parameters["order"];
+          order?: parameters['order']
           /** Limiting and Pagination */
-          offset?: parameters["offset"];
+          offset?: parameters['offset']
           /** Limiting and Pagination */
-          limit?: parameters["limit"];
-        };
+          limit?: parameters['limit']
+        }
         header: {
           /** Limiting and Pagination */
-          Range?: parameters["range"];
+          Range?: parameters['range']
           /** Limiting and Pagination */
-          "Range-Unit"?: parameters["rangeUnit"];
+          'Range-Unit'?: parameters['rangeUnit']
           /** Preference */
-          Prefer?: parameters["preferCount"];
-        };
-      };
+          Prefer?: parameters['preferCount']
+        }
+      }
       responses: {
         /** OK */
         200: {
-          schema: definitions["shiftpattern"][];
-        };
+          schema: definitions['shiftpattern'][]
+        }
         /** Partial Content */
-        206: unknown;
-      };
-    };
+        206: unknown
+      }
+    }
     post: {
       parameters: {
         body: {
           /** shiftpattern */
-          shiftpattern?: definitions["shiftpattern"];
-        };
+          shiftpattern?: definitions['shiftpattern']
+        }
         query: {
           /** Filtering Columns */
-          select?: parameters["select"];
-        };
+          select?: parameters['select']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** Created */
-        201: unknown;
-      };
-    };
+        201: unknown
+      }
+    }
     delete: {
       parameters: {
         query: {
-          name?: parameters["rowFilter.shiftpattern.name"];
-          required_people?: parameters["rowFilter.shiftpattern.required_people"];
-          id?: parameters["rowFilter.shiftpattern.id"];
-          roomId?: parameters["rowFilter.shiftpattern.roomId"];
-          updatedAt?: parameters["rowFilter.shiftpattern.updatedAt"];
-          cron?: parameters["rowFilter.shiftpattern.cron"];
-          allowOneOffAllocations?: parameters["rowFilter.shiftpattern.allowOneOffAllocations"];
-          cronTimezone?: parameters["rowFilter.shiftpattern.cronTimezone"];
-        };
+          name?: parameters['rowFilter.shiftpattern.name']
+          required_people?: parameters['rowFilter.shiftpattern.required_people']
+          id?: parameters['rowFilter.shiftpattern.id']
+          roomId?: parameters['rowFilter.shiftpattern.roomId']
+          updatedAt?: parameters['rowFilter.shiftpattern.updatedAt']
+          cron?: parameters['rowFilter.shiftpattern.cron']
+          allowOneOffAllocations?: parameters['rowFilter.shiftpattern.allowOneOffAllocations']
+          cronTimezone?: parameters['rowFilter.shiftpattern.cronTimezone']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
+        204: never
+      }
+    }
     patch: {
       parameters: {
         query: {
-          name?: parameters["rowFilter.shiftpattern.name"];
-          required_people?: parameters["rowFilter.shiftpattern.required_people"];
-          id?: parameters["rowFilter.shiftpattern.id"];
-          roomId?: parameters["rowFilter.shiftpattern.roomId"];
-          updatedAt?: parameters["rowFilter.shiftpattern.updatedAt"];
-          cron?: parameters["rowFilter.shiftpattern.cron"];
-          allowOneOffAllocations?: parameters["rowFilter.shiftpattern.allowOneOffAllocations"];
-          cronTimezone?: parameters["rowFilter.shiftpattern.cronTimezone"];
-        };
+          name?: parameters['rowFilter.shiftpattern.name']
+          required_people?: parameters['rowFilter.shiftpattern.required_people']
+          id?: parameters['rowFilter.shiftpattern.id']
+          roomId?: parameters['rowFilter.shiftpattern.roomId']
+          updatedAt?: parameters['rowFilter.shiftpattern.updatedAt']
+          cron?: parameters['rowFilter.shiftpattern.cron']
+          allowOneOffAllocations?: parameters['rowFilter.shiftpattern.allowOneOffAllocations']
+          cronTimezone?: parameters['rowFilter.shiftpattern.cronTimezone']
+        }
         body: {
           /** shiftpattern */
-          shiftpattern?: definitions["shiftpattern"];
-        };
+          shiftpattern?: definitions['shiftpattern']
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferReturn"];
-        };
-      };
+          Prefer?: parameters['preferReturn']
+        }
+      }
       responses: {
         /** No Content */
-        204: never;
-      };
-    };
-  };
-  "/rpc/http_put": {
+        204: never
+      }
+    }
+  }
+  '/rpc/http_put': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            content: string;
+            content: string
             /** Format: character varying */
-            content_type: string;
+            content_type: string
             /** Format: character varying */
-            uri: string;
-          };
-        };
+            uri: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_header": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_header': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            field: string;
+            field: string
             /** Format: character varying */
-            value: string;
-          };
-        };
+            value: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_patch": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_patch': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            content: string;
+            content: string
             /** Format: character varying */
-            content_type: string;
+            content_type: string
             /** Format: character varying */
-            uri: string;
-          };
-        };
+            uri: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_set_curlopt": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_set_curlopt': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            curlopt: string;
+            curlopt: string
             /** Format: character varying */
-            value: string;
-          };
-        };
+            value: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_get": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_get': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            uri: string;
-          };
-        };
+            uri: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: public.http_request */
-            request: string;
-          };
-        };
+            request: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_delete": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_delete': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            uri: string;
-          };
-        };
+            uri: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_head": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_head': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            uri: string;
-          };
-        };
+            uri: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_reset_curlopt": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_reset_curlopt': {
     post: {
       parameters: {
         body: {
-          args: { [key: string]: unknown };
-        };
+          args: { [key: string]: unknown }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/http_post": {
-    post: {
-      parameters: {
-        body: {
-          args: {
-            /** Format: character varying */
-            content: string;
-            /** Format: character varying */
-            content_type: string;
-            /** Format: character varying */
-            uri: string;
-          };
-        };
-        header: {
-          /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
-      responses: {
-        /** OK */
-        200: unknown;
-      };
-    };
-  };
-  "/rpc/urlencode": {
+        200: unknown
+      }
+    }
+  }
+  '/rpc/http_post': {
     post: {
       parameters: {
         body: {
           args: {
             /** Format: character varying */
-            string: string;
-          };
-        };
+            content: string
+            /** Format: character varying */
+            content_type: string
+            /** Format: character varying */
+            uri: string
+          }
+        }
         header: {
           /** Preference */
-          Prefer?: parameters["preferParams"];
-        };
-      };
+          Prefer?: parameters['preferParams']
+        }
+      }
       responses: {
         /** OK */
-        200: unknown;
-      };
-    };
-  };
+        200: unknown
+      }
+    }
+  }
+  '/rpc/urlencode': {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: character varying */
+            string: string
+          }
+        }
+        header: {
+          /** Preference */
+          Prefer?: parameters['preferParams']
+        }
+      }
+      responses: {
+        /** OK */
+        200: unknown
+      }
+    }
+  }
 }
 
 export interface definitions {
@@ -922,93 +922,93 @@ export interface definitions {
      * Format: timestamp with time zone
      * @default timezone('utc'::text, now())
      */
-    insertedAt: string;
+    insertedAt: string
     /**
      * Format: timestamp with time zone
      * @default timezone('utc'::text, now())
      */
-    updatedAt: string;
+    updatedAt: string
     /** Format: boolean */
-    canLeadSessions: boolean;
+    canLeadSessions: boolean
     /** Format: text */
-    firstName?: string;
+    firstName?: string
     /** Format: text */
-    lastName?: string;
+    lastName?: string
     /** Format: uuid */
-    userId?: string;
+    userId?: string
     /** Format: boolean */
-    canManageShifts: boolean;
+    canManageShifts: boolean
     /** Format: text */
-    email: string;
+    email: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    id: string
     /** Format: text */
-    hubspotContactId?: string;
-  };
+    hubspotContactId?: string
+  }
   room: {
     /**
      * Format: text
      * @description Human readable name.
      */
-    name: string;
+    name: string
     /**
      * Format: text
      * @description URL path to access this room.
      */
-    slug: string;
+    slug: string
     /**
      * Format: text
      * @description Notion property.
      * @default ADHD Together Group Session - Agenda 1
      */
-    slideshowName: string;
+    slideshowName: string
     /**
      * Format: integer
      * @description Notion ID.
      */
-    currentSlideIndex: number;
+    currentSlideIndex: number
     /**
      * Format: text
      * @default stopped
      */
-    timerState?: string;
+    timerState?: string
     /**
      * Format: timestamp with time zone
      * @default now()
      */
-    timerStartTime: string;
+    timerStartTime: string
     /** Format: bigint */
-    timerDuration: number;
+    timerDuration: number
     /** Format: text */
-    wherebyMeetingId?: string;
+    wherebyMeetingId?: string
     /** Format: timestamp with time zone */
-    wherebyStartDate?: string;
+    wherebyStartDate?: string
     /** Format: timestamp with time zone */
-    wherebyEndDate?: string;
+    wherebyEndDate?: string
     /** Format: text */
-    wherebyRoomUrl?: string;
+    wherebyRoomUrl?: string
     /** Format: text */
-    wherebyHostRoomUrl?: string;
+    wherebyHostRoomUrl?: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    id: string
     /** Format: text */
-    hubspotLeaderListId?: string;
+    hubspotLeaderListId?: string
     /**
      * Format: timestamp with time zone
      * @default timezone('utc'::text, now())
      */
-    updatedAt: string;
-  };
+    updatedAt: string
+  }
   roompermission: {
     /**
      * Format: uuid
@@ -1016,30 +1016,30 @@ export interface definitions {
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    id: string
     /**
      * Format: text
      * @description member | leader | manager
      */
-    type: string;
+    type: string
     /**
      * Format: timestamp with time zone
      * @default now()
      */
-    updatedAt: string;
+    updatedAt: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profile.id`.<fk table='profile' column='id'/>
      */
-    profileId: string;
+    profileId: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `room.id`.<fk table='room' column='id'/>
      */
-    roomId: string;
-  };
+    roomId: string
+  }
   shiftallocation: {
     /**
      * Format: uuid
@@ -1047,25 +1047,25 @@ export interface definitions {
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    id: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `shiftpattern.id`.<fk table='shiftpattern' column='id'/>
      */
-    shiftPatternId: string;
+    shiftPatternId: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profile.id`.<fk table='profile' column='id'/>
      */
-    profileId: string;
+    profileId: string
     /**
      * Format: timestamp with time zone
      * @default now()
      */
-    updatedAt: string;
-  };
+    updatedAt: string
+  }
   shiftexception: {
     /**
      * Format: uuid
@@ -1073,225 +1073,225 @@ export interface definitions {
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    id: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `shiftpattern.id`.<fk table='shiftpattern' column='id'/>
      */
-    shiftPatternId: string;
+    shiftPatternId: string
     /** Format: timestamp with time zone */
-    date: string;
+    date: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `profile.id`.<fk table='profile' column='id'/>
      */
-    profileId: string;
+    profileId: string
     /**
      * Format: text
      * @description drop_out or drop_in
      */
-    type: string;
+    type: string
     /**
      * Format: timestamp with time zone
      * @default now()
      */
-    lastUpdated: string;
+    lastUpdated: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `shiftallocation.id`.<fk table='shiftallocation' column='id'/>
      */
-    shiftAllocationId?: string;
-  };
+    shiftAllocationId?: string
+  }
   shiftpattern: {
     /** Format: text */
-    name: string;
+    name: string
     /**
      * Format: integer
      * @default 1
      */
-    required_people: number;
+    required_people: number
     /**
      * Format: uuid
      * @description Note:
      * This is a Primary Key.<pk/>
      * @default extensions.uuid_generate_v4()
      */
-    id: string;
+    id: string
     /**
      * Format: uuid
      * @description Note:
      * This is a Foreign Key to `room.id`.<fk table='room' column='id'/>
      */
-    roomId: string;
+    roomId: string
     /**
      * Format: timestamp with time zone
      * @default now()
      */
-    updatedAt: string;
+    updatedAt: string
     /** Format: text */
-    cron: string;
+    cron: string
     /** Format: boolean */
-    allowOneOffAllocations: boolean;
+    allowOneOffAllocations: boolean
     /** Format: text */
-    cronTimezone: string;
-  };
+    cronTimezone: string
+  }
 }
 
 export interface parameters {
   /** @description Preference */
-  preferParams: "params=single-object";
+  preferParams: 'params=single-object'
   /** @description Preference */
-  preferReturn: "return=representation" | "return=minimal" | "return=none";
+  preferReturn: 'return=representation' | 'return=minimal' | 'return=none'
   /** @description Preference */
-  preferCount: "count=none";
+  preferCount: 'count=none'
   /** @description Filtering Columns */
-  select: string;
+  select: string
   /** @description On Conflict */
-  on_conflict: string;
+  on_conflict: string
   /** @description Ordering */
-  order: string;
+  order: string
   /** @description Limiting and Pagination */
-  range: string;
+  range: string
   /**
    * @description Limiting and Pagination
    * @default items
    */
-  rangeUnit: string;
+  rangeUnit: string
   /** @description Limiting and Pagination */
-  offset: string;
+  offset: string
   /** @description Limiting and Pagination */
-  limit: string;
+  limit: string
   /** @description profile */
-  "body.profile": definitions["profile"];
+  'body.profile': definitions['profile']
   /** Format: timestamp with time zone */
-  "rowFilter.profile.insertedAt": string;
+  'rowFilter.profile.insertedAt': string
   /** Format: timestamp with time zone */
-  "rowFilter.profile.updatedAt": string;
+  'rowFilter.profile.updatedAt': string
   /** Format: boolean */
-  "rowFilter.profile.canLeadSessions": string;
+  'rowFilter.profile.canLeadSessions': string
   /** Format: text */
-  "rowFilter.profile.firstName": string;
+  'rowFilter.profile.firstName': string
   /** Format: text */
-  "rowFilter.profile.lastName": string;
+  'rowFilter.profile.lastName': string
   /** Format: uuid */
-  "rowFilter.profile.userId": string;
+  'rowFilter.profile.userId': string
   /** Format: boolean */
-  "rowFilter.profile.canManageShifts": string;
+  'rowFilter.profile.canManageShifts': string
   /** Format: text */
-  "rowFilter.profile.email": string;
+  'rowFilter.profile.email': string
   /** Format: uuid */
-  "rowFilter.profile.id": string;
+  'rowFilter.profile.id': string
   /** Format: text */
-  "rowFilter.profile.hubspotContactId": string;
+  'rowFilter.profile.hubspotContactId': string
   /** @description room */
-  "body.room": definitions["room"];
+  'body.room': definitions['room']
   /**
    * Format: text
    * @description Human readable name.
    */
-  "rowFilter.room.name": string;
+  'rowFilter.room.name': string
   /**
    * Format: text
    * @description URL path to access this room.
    */
-  "rowFilter.room.slug": string;
+  'rowFilter.room.slug': string
   /**
    * Format: text
    * @description Notion property.
    */
-  "rowFilter.room.slideshowName": string;
+  'rowFilter.room.slideshowName': string
   /**
    * Format: integer
    * @description Notion ID.
    */
-  "rowFilter.room.currentSlideIndex": string;
+  'rowFilter.room.currentSlideIndex': string
   /** Format: text */
-  "rowFilter.room.timerState": string;
+  'rowFilter.room.timerState': string
   /** Format: timestamp with time zone */
-  "rowFilter.room.timerStartTime": string;
+  'rowFilter.room.timerStartTime': string
   /** Format: bigint */
-  "rowFilter.room.timerDuration": string;
+  'rowFilter.room.timerDuration': string
   /** Format: text */
-  "rowFilter.room.wherebyMeetingId": string;
+  'rowFilter.room.wherebyMeetingId': string
   /** Format: timestamp with time zone */
-  "rowFilter.room.wherebyStartDate": string;
+  'rowFilter.room.wherebyStartDate': string
   /** Format: timestamp with time zone */
-  "rowFilter.room.wherebyEndDate": string;
+  'rowFilter.room.wherebyEndDate': string
   /** Format: text */
-  "rowFilter.room.wherebyRoomUrl": string;
+  'rowFilter.room.wherebyRoomUrl': string
   /** Format: text */
-  "rowFilter.room.wherebyHostRoomUrl": string;
+  'rowFilter.room.wherebyHostRoomUrl': string
   /** Format: uuid */
-  "rowFilter.room.id": string;
+  'rowFilter.room.id': string
   /** Format: text */
-  "rowFilter.room.hubspotLeaderListId": string;
+  'rowFilter.room.hubspotLeaderListId': string
   /** Format: timestamp with time zone */
-  "rowFilter.room.updatedAt": string;
+  'rowFilter.room.updatedAt': string
   /** @description roompermission */
-  "body.roompermission": definitions["roompermission"];
+  'body.roompermission': definitions['roompermission']
   /** Format: uuid */
-  "rowFilter.roompermission.id": string;
+  'rowFilter.roompermission.id': string
   /**
    * Format: text
    * @description member | leader | manager
    */
-  "rowFilter.roompermission.type": string;
+  'rowFilter.roompermission.type': string
   /** Format: timestamp with time zone */
-  "rowFilter.roompermission.updatedAt": string;
+  'rowFilter.roompermission.updatedAt': string
   /** Format: uuid */
-  "rowFilter.roompermission.profileId": string;
+  'rowFilter.roompermission.profileId': string
   /** Format: uuid */
-  "rowFilter.roompermission.roomId": string;
+  'rowFilter.roompermission.roomId': string
   /** @description shiftallocation */
-  "body.shiftallocation": definitions["shiftallocation"];
+  'body.shiftallocation': definitions['shiftallocation']
   /** Format: uuid */
-  "rowFilter.shiftallocation.id": string;
+  'rowFilter.shiftallocation.id': string
   /** Format: uuid */
-  "rowFilter.shiftallocation.shiftPatternId": string;
+  'rowFilter.shiftallocation.shiftPatternId': string
   /** Format: uuid */
-  "rowFilter.shiftallocation.profileId": string;
+  'rowFilter.shiftallocation.profileId': string
   /** Format: timestamp with time zone */
-  "rowFilter.shiftallocation.updatedAt": string;
+  'rowFilter.shiftallocation.updatedAt': string
   /** @description shiftexception */
-  "body.shiftexception": definitions["shiftexception"];
+  'body.shiftexception': definitions['shiftexception']
   /** Format: uuid */
-  "rowFilter.shiftexception.id": string;
+  'rowFilter.shiftexception.id': string
   /** Format: uuid */
-  "rowFilter.shiftexception.shiftPatternId": string;
+  'rowFilter.shiftexception.shiftPatternId': string
   /** Format: timestamp with time zone */
-  "rowFilter.shiftexception.date": string;
+  'rowFilter.shiftexception.date': string
   /** Format: uuid */
-  "rowFilter.shiftexception.profileId": string;
+  'rowFilter.shiftexception.profileId': string
   /**
    * Format: text
    * @description drop_out or drop_in
    */
-  "rowFilter.shiftexception.type": string;
+  'rowFilter.shiftexception.type': string
   /** Format: timestamp with time zone */
-  "rowFilter.shiftexception.lastUpdated": string;
+  'rowFilter.shiftexception.lastUpdated': string
   /** Format: uuid */
-  "rowFilter.shiftexception.shiftAllocationId": string;
+  'rowFilter.shiftexception.shiftAllocationId': string
   /** @description shiftpattern */
-  "body.shiftpattern": definitions["shiftpattern"];
+  'body.shiftpattern': definitions['shiftpattern']
   /** Format: text */
-  "rowFilter.shiftpattern.name": string;
+  'rowFilter.shiftpattern.name': string
   /** Format: integer */
-  "rowFilter.shiftpattern.required_people": string;
+  'rowFilter.shiftpattern.required_people': string
   /** Format: uuid */
-  "rowFilter.shiftpattern.id": string;
+  'rowFilter.shiftpattern.id': string
   /** Format: uuid */
-  "rowFilter.shiftpattern.roomId": string;
+  'rowFilter.shiftpattern.roomId': string
   /** Format: timestamp with time zone */
-  "rowFilter.shiftpattern.updatedAt": string;
+  'rowFilter.shiftpattern.updatedAt': string
   /** Format: text */
-  "rowFilter.shiftpattern.cron": string;
+  'rowFilter.shiftpattern.cron': string
   /** Format: boolean */
-  "rowFilter.shiftpattern.allowOneOffAllocations": string;
+  'rowFilter.shiftpattern.allowOneOffAllocations': string
   /** Format: text */
-  "rowFilter.shiftpattern.cronTimezone": string;
+  'rowFilter.shiftpattern.cronTimezone': string
 }
 
 export interface operations {}
