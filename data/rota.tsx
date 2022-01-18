@@ -76,10 +76,10 @@ export const RotaContextProvider = (props: any) => {
 
   useEffect(
     function () {
-      let shiftUnsubscribe: NO_OP
-      let allocationUnsubscribe: NO_OP
-      let leadersUnsubscribe: NO_OP
-      let exceptionsUnsubscribe: NO_OP
+      let shiftUnsubscribe: () => void
+      let allocationUnsubscribe: () => void
+      let leadersUnsubscribe: () => void
+      let exceptionsUnsubscribe: () => void
 
       if (room) {
         shiftUnsubscribe = onShiftPatternChange(() =>
