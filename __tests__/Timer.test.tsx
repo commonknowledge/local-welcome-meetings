@@ -79,7 +79,7 @@ describe('Timer', () => {
                 room={room}
                 updateRoom={updateRoom}
                 isControllable={false}
-                durations={[
+                durationsSeconds={[
                   {
                     duration: 1,
                     label: 'Start',

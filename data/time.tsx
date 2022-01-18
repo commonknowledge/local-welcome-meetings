@@ -30,19 +30,21 @@ export const TimeProvider = ({ children }: { children?: any }) => {
   }
 
   useEffect(() => {
-    if (isServer) return
+    if (isServer) {
+      return
+    } else {
+      ts.current = create({
+        server: new URL('/api/time', window.location.toString()),
+        interval: 10000,
+      })
 
-    ts.current = create({
-      server: new URL('/api/time', window.location.toString()),
-      interval: 10000,
-    })
+      // get notified on changes in the offset
+      ts.current?.on('change', function (newOffset) {
+        setOffset(newOffset)
+      })
 
-    // get notified on changes in the offset
-    ts.current?.on('change', function (newOffset) {
-      setOffset(newOffset)
-    })
-
-    return () => ts.current?.destroy()
+      return () => ts.current?.destroy()
+    }
   }, [])
 
   return <TimeContext.Provider value={context}>{children}</TimeContext.Provider>

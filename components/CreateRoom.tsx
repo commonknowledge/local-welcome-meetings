@@ -31,9 +31,8 @@ export const CreateRoom: React.FunctionComponent<CreateRoomProps> = ({
 }) => {
   const defaultValues: Omit<Room, 'id' | 'updatedAt'> = {
     currentSlideIndex: 0,
-    timerStartTime: String(new Date()),
+    timerEndTimeUTC: undefined,
     timerState: 'stopped',
-    timerDuration: 90,
     name: '',
     slug: '',
     slideshowName: '',

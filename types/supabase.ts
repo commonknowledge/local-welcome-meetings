@@ -981,7 +981,7 @@ export interface definitions {
      * Format: timestamp with time zone
      * @default now()
      */
-    timerStartTime: string
+    timerEndTimeUTC?: string
     /** Format: bigint */
     timerDuration: number
     /** Format: text */
