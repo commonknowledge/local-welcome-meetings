@@ -171,9 +171,8 @@ export const SlideshowControls: React.FunctionComponent = () => {
   )
 
   const changeSlide = React.useCallback(
-    async (requestedIndex: number) => {
-      const nextIndex = safeSlideIndex(requestedIndex)
-      return updateRoom({ currentSlideIndex: nextIndex })
+    (requestedIndex: number) => {
+      updateRoom({ currentSlideIndex: safeSlideIndex(requestedIndex) })
     },
     [safeSlideIndex, updateRoom],
   )
@@ -199,9 +198,17 @@ export const SlideshowControls: React.FunctionComponent = () => {
     }
   }, [changeSlide, room])
 
+  const clickFirst = React.useCallback(() => {
+    changeSlide(0)
+  }, [changeSlide])
+
   return room != null && profile?.canLeadSessions ? (
     <div>
-      <Navigation clickPrevious={clickPrevious} clickNext={clickNext}>
+      <Navigation
+        clickFirst={clickFirst}
+        clickPrevious={clickPrevious}
+        clickNext={clickNext}
+      >
         {room.currentSlideIndex + 1} of {slides?.length || 0}
       </Navigation>
     </div>

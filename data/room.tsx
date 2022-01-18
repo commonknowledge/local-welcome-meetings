@@ -68,8 +68,9 @@ export const useRooms = (defaultValue: Room[] = []) => {
   return rooms
 }
 
-export function updateRoom(roomSlug: string, room: Partial<Room>) {
-  return supabase.from<Room>('room').update(room).eq('slug', roomSlug)
+export function updateRoom(roomSlug: string, newRoomValues: Partial<Room>) {
+  console.trace('updating the room', newRoomValues)
+  return supabase.from<Room>('room').update(newRoomValues).eq('slug', roomSlug)
 }
 
 export async function deleteRoom(id: string) {
@@ -124,24 +125,24 @@ export function RoomContextProvider({
     [slug],
   )
 
-  const loadSlides = useCallback(
-    async (slideshowName: string) => {
-      const res = await fetch(
-        qs.stringifyUrl({ url: '/api/slides', query: { slideshowName } }),
-      )
-      const { slides: newSlides } = await res.json()
-      if (!newSlides) return
+  const loadSlides = useCallback(async (slideshowName: string) => {
+    const res = await fetch(
+      qs.stringifyUrl({ url: '/api/slides', query: { slideshowName } }),
+    )
+    const { slides: newSlides } = await res.json()
+    if (newSlides != null) {
       setSlides(newSlides)
-      _updateRoom({ currentSlideIndex: 0 })
-    },
-    [_updateRoom],
-  )
+    }
+  }, [])
 
   const prevSlideshowName = usePrevious(room?.slideshowName)
 
   useEffect(
     function listenForSlideshowChanges() {
-      if (!!room?.slideshowName && room?.slideshowName !== prevSlideshowName) {
+      if (
+        room?.slideshowName != null &&
+        room?.slideshowName !== prevSlideshowName
+      ) {
         loadSlides(room?.slideshowName)
       }
     },
