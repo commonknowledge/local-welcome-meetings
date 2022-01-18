@@ -1,8 +1,17 @@
 import { notion } from './notion'
 import { env } from './env'
-import { SelectOption } from '@notionhq/client/build/src/api-types'
+import {
+  GetDatabaseResponse,
+  QueryDatabaseResponse,
+} from '@notionhq/client/build/src/api-endpoints'
+import { Slideshow } from '../components/Slideshow'
 
-export async function getSlides(slideshowName: string) {
+export type Page = Extract<
+  QueryDatabaseResponse['results'][number],
+  { properties: any }
+>
+
+export async function getSlides(slideshowName: string): Promise<Array<Page>> {
   const slideshows = await notion.databases.query({
     database_id: env.get('NOTION_SLIDESHOW_DATABASE_ID').required().asString(),
     filter: {
@@ -28,16 +37,20 @@ export async function getSlides(slideshowName: string) {
       },
     ],
   })
-
-  return slideshows.results || null
+  return slideshows.results as Array<Page>
 }
 
-export async function getSlideshowOptions(): Promise<SelectOption[]> {
+type Slideshow = Extract<
+  GetDatabaseResponse['properties']['Slideshow'],
+  { type: 'select' }
+>
+export type SelectOption = Slideshow['select']['options'][0]
+
+export async function getSlideshowOptions(): Promise<Array<SelectOption>> {
   const database_id = env
     .get('NOTION_SLIDESHOW_DATABASE_ID')
     .required()
     .asString()
   const result = await notion.databases.retrieve({ database_id })
-  // @ts-ignore
-  return result.properties?.Slideshow?.select?.options
+  return (result.properties.Slideshow as Slideshow).select.options
 }

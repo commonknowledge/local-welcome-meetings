@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import assert from 'assert'
-import { getSlideshowOptions } from '../../data/slideshow'
-import { SelectOption } from '@notionhq/client/build/src/api-types'
+import { getSlideshowOptions, SelectOption } from '../../data/slideshow'
 import { withSentry } from '@sentry/nextjs'
 
 async function handler(

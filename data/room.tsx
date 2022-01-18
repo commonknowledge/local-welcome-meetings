@@ -1,17 +1,17 @@
-import { supabase } from './supabase'
-import { Room } from '../types/app'
 import { SupabaseRealtimePayload } from '@supabase/supabase-js'
+import qs from 'query-string'
 import {
+  createContext,
+  useCallback,
+  useContext,
   useEffect,
   useState,
-  createContext,
-  useContext,
-  useCallback,
 } from 'react'
-import { Page } from '@notionhq/client/build/src/api-types'
-import qs from 'query-string'
+import { Room } from '../types/app'
 import { usePrevious } from '../utils/hooks'
 import { NO_OP } from '../utils/utils'
+import { Page } from './slideshow'
+import { supabase } from './supabase'
 
 export async function getAllRooms(): Promise<Room[]> {
   const rooms = await supabase.from<Room>('room').select('*')
