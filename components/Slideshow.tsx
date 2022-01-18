@@ -1,11 +1,11 @@
 import { Disclosure } from '@headlessui/react'
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import { Page } from '@notionhq/client/build/src/api-types'
 import cx from 'classnames'
-import React, { Key, useCallback, useMemo } from 'react'
+import React from 'react'
 import { useUser } from '../data/auth'
 import { markdownToHtml } from '../data/markdown'
 import { useRoom } from '../data/room'
+import { Page } from '../data/slideshow'
 import { keyToCode, useKeyPress } from '../utils/hooks'
 import { Navigation } from './Elements'
 
@@ -13,94 +13,106 @@ export function Slideshow() {
   const { profile } = useUser()
   const { room, slides } = useRoom()
 
-  const safeSlideIndex = useCallback(
+  const safeSlideIndex = React.useCallback(
     (index: number) => {
       return Math.max(0, Math.min(slides.length - 1, index))
     },
     [slides],
   )
 
-  const currentSlide = useMemo(() => {
-    if (typeof room?.currentSlideIndex !== 'number') return null
-    return slides[safeSlideIndex(room.currentSlideIndex)] as Page | null
-  }, [slides, room?.currentSlideIndex, safeSlideIndex])
-
-  return (
-    <div className='prose'>
-      <section className='p-4'>
-        <h2 className='!mt-0'>
-          {currentSlide?.properties['Name']
-            // @ts-ignore
-            .title!.map((fragment) => fragment.plain_text)
-            .join()}
-        </h2>
-        {currentSlide?.properties['Member notes']
-          // @ts-ignore
-          .rich_text!.map((fragment, i) => (
-            <div
-              key={i}
-              className={`dictates-colour ${convertNotionToTailwindColour(
-                fragment.annotations.color,
-              )}`}
-              dangerouslySetInnerHTML={{
-                __html: markdownToHtml(fragment.text.content),
-              }}
-            />
-          ))}
-      </section>
-      {profile?.canLeadSessions && (
-        <section className='dark-prose mx-4 text-adhdPurple'>
-          <Disclosure>
-            {({ open }) => (
-              <div
-                className={cx(
-                  open ? 'opacity-100' : 'opacity-50',
-                  'bg-white rounded-lg overflow-hidden',
-                )}
-              >
-                <Disclosure.Button className='flex flex-row justify-between items-center w-full hover:bg-yellow-200 transition rounded-lg p-4 py-3'>
-                  <span className='flex flex-row items-center'>
-                    <span className='uppercase text-sm font-semibold'>
-                      {open ? 'Close leader notes' : 'Show leader notes'}
-                    </span>
-                    <ChevronRightIcon
-                      className={cx(
-                        'inline-block w-[30px] h-[30px]',
-                        open ? 'transform rotate-90' : '',
-                      )}
-                    />
-                  </span>
-                </Disclosure.Button>
-                <Disclosure.Panel className='p-4 pt-0 pb-2'>
-                  {/* @ts-ignore */}
-                  {currentSlide?.properties['Speaker notes'].rich_text!.map(
-                    (
-                      fragment: {
-                        annotations: { color: string }
-                        text: { content: string }
-                      },
-                      i: Key | null | undefined,
-                    ) => (
-                      <div
-                        key={i}
-                        className={`dictates-colour ${convertNotionToTailwindColour(
-                          fragment.annotations.color,
-                        )}`}
-                        dangerouslySetInnerHTML={{
-                          __html: markdownToHtml(fragment.text.content),
-                        }}
-                      />
-                    ),
-                  )}
-                </Disclosure.Panel>
-              </div>
-            )}
-          </Disclosure>
-        </section>
-      )}
-      <div className='pt-4' />
-    </div>
+  const currentSlide = React.useMemo<Page | null>(
+    () =>
+      room != null ? slides[safeSlideIndex(room.currentSlideIndex)] : null,
+    [room, slides, safeSlideIndex],
   )
+
+  if (currentSlide != null) {
+    const name = currentSlide.properties['Name']
+    if (name == null || !('title' in name)) {
+      throw Error(`Slide has no title`)
+    }
+    const title = name.title.map((fragment) => fragment.plain_text).join()
+
+    const memberNotes = currentSlide.properties['Member notes']
+    const memberNotesText = (() =>
+      memberNotes != null && 'rich_text' in memberNotes
+        ? memberNotes.rich_text.map((fragment, i) =>
+            'text' in fragment ? (
+              <div
+                key={i}
+                className={`dictates-colour ${convertNotionToTailwindColour(
+                  fragment.annotations.color,
+                )}`}
+                dangerouslySetInnerHTML={{
+                  __html: markdownToHtml(fragment.text.content),
+                }}
+              />
+            ) : null,
+          )
+        : null)()
+
+    const speakerNotes = currentSlide.properties['Speaker notes']
+    const speakerNotesElements = (() =>
+      speakerNotes != null && 'rich_text' in speakerNotes
+        ? speakerNotes.rich_text.map(
+            (fragment, i: React.Key | null | undefined) =>
+              'text' in fragment ? (
+                <div
+                  key={i}
+                  className={`dictates-colour ${convertNotionToTailwindColour(
+                    fragment.annotations.color,
+                  )}`}
+                  dangerouslySetInnerHTML={{
+                    __html: markdownToHtml(fragment.text.content),
+                  }}
+                />
+              ) : null,
+          )
+        : null)()
+
+    return (
+      <div className='prose'>
+        <section className='p-4'>
+          <h2 className='!mt-0'>{title}</h2>
+          {memberNotesText}
+        </section>
+        {profile?.canLeadSessions && (
+          <section className='dark-prose mx-4 text-adhdPurple'>
+            <Disclosure>
+              {({ open }) => (
+                <div
+                  className={cx(
+                    open ? 'opacity-100' : 'opacity-50',
+                    'bg-white rounded-lg overflow-hidden',
+                  )}
+                >
+                  <Disclosure.Button className='flex flex-row justify-between items-center w-full hover:bg-yellow-200 transition rounded-lg p-4 py-3'>
+                    <span className='flex flex-row items-center'>
+                      <span className='uppercase text-sm font-semibold'>
+                        {open ? 'Close leader notes' : 'Show leader notes'}
+                      </span>
+                      <ChevronRightIcon
+                        className={cx(
+                          'inline-block w-[30px] h-[30px]',
+                          open ? 'transform rotate-90' : '',
+                        )}
+                      />
+                    </span>
+                  </Disclosure.Button>
+                  <Disclosure.Panel className='p-4 pt-0 pb-2'>
+                    {speakerNotesElements}
+                  </Disclosure.Panel>
+                </div>
+              )}
+            </Disclosure>
+          </section>
+        )}
+        <div className='pt-4' />
+      </div>
+    )
+  } else {
+    return null
+  }
 }
 
 export const convertNotionToTailwindColour = (color: string) => {
@@ -151,7 +163,7 @@ export const SlideshowControls: React.FunctionComponent = () => {
   const { profile } = useUser()
   const { room, updateRoom, slides } = useRoom()
 
-  const safeSlideIndex = useCallback(
+  const safeSlideIndex = React.useCallback(
     (index: number) => {
       return Math.max(0, Math.min(slides?.length - 1, index))
     },
@@ -159,9 +171,8 @@ export const SlideshowControls: React.FunctionComponent = () => {
   )
 
   const changeSlide = React.useCallback(
-    async (requestedIndex: number) => {
-      const nextIndex = safeSlideIndex(requestedIndex)
-      return updateRoom({ currentSlideIndex: nextIndex })
+    (requestedIndex: number) => {
+      updateRoom({ currentSlideIndex: safeSlideIndex(requestedIndex) })
     },
     [safeSlideIndex, updateRoom],
   )
@@ -187,9 +198,17 @@ export const SlideshowControls: React.FunctionComponent = () => {
     }
   }, [changeSlide, room])
 
+  const clickFirst = React.useCallback(() => {
+    changeSlide(0)
+  }, [changeSlide])
+
   return room != null && profile?.canLeadSessions ? (
     <div>
-      <Navigation clickPrevious={clickPrevious} clickNext={clickNext}>
+      <Navigation
+        clickFirst={clickFirst}
+        clickPrevious={clickPrevious}
+        clickNext={clickNext}
+      >
         {room.currentSlideIndex + 1} of {slides?.length || 0}
       </Navigation>
     </div>

@@ -23,7 +23,7 @@ export default function CreateRoomModal({
 }
 
 interface CreateRoomProps {
-  onFormComplete?: NO_OP
+  onFormComplete?: () => void
 }
 
 export const CreateRoom: React.FunctionComponent<CreateRoomProps> = ({

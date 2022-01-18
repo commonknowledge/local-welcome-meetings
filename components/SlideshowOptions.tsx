@@ -1,18 +1,18 @@
 import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, Suspense } from 'react'
-import { SelectOption } from '@notionhq/client/build/src/api-types'
 import { CheckIcon } from '@heroicons/react/outline'
 import { useSlideshowOptions } from '../data/slideshow-client'
+import { SelectOption } from '../data/slideshow'
 
-export function SlideshowOptions({
-  menuButton,
-  selectOption,
-  currentOption,
-}: {
+interface SlideshowOptionsProps {
   menuButton: any
   selectOption: (option: SelectOption) => void
   currentOption?: string
-}) {
+}
+
+export const SlideshowOptions: React.FunctionComponent<
+  SlideshowOptionsProps
+> = ({ menuButton, selectOption, currentOption }) => {
   const slideshowOptions = useSlideshowOptions()
   return (
     <Menu as='div' className='w-full relative inline-block text-left'>

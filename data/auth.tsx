@@ -20,7 +20,7 @@ export interface IUserContext {
   session: Session | null
   profile: Profile | null
   signOut: (routing?: boolean) => void
-  signIn: NO_OP
+  signIn: () => void
   permissions: RoomPermission[]
   canManageShifts: boolean
 }

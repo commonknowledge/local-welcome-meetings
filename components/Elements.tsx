@@ -1,17 +1,22 @@
 import { Transition } from '@headlessui/react'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDoubleLeftIcon,
+} from '@heroicons/react/solid'
 import { addSeconds } from 'date-fns'
 import * as React from 'react'
 import { useTime } from '../utils/hooks'
-import { NO_OP } from '../utils/utils'
 
 export const Navigation = ({
+  clickFirst,
   clickPrevious,
   clickNext,
   children,
 }: {
-  clickPrevious: NO_OP
-  clickNext: NO_OP
+  clickFirst: () => void
+  clickPrevious: () => void
+  clickNext: () => void
   children?: any
 }) => (
   <nav
@@ -19,6 +24,16 @@ export const Navigation = ({
     aria-label='Pagination'
   >
     <span
+      title='First slide'
+      data-attr='slide-previous-btn'
+      onClick={clickFirst}
+      className='cursor-pointer relative inline-flex items-center px-2 py-1 rounded-md text-sm font-medium text-gray-500'
+    >
+      <span className='sr-only'>First</span>
+      <ChevronDoubleLeftIcon className='h-4 w-4' aria-hidden='true' />
+    </span>
+    <span
+      title='Previous slide'
       data-attr='slide-previous-btn'
       onClick={clickPrevious}
       className='cursor-pointer relative inline-flex items-center px-2 py-1 rounded-md text-sm font-medium text-gray-500'
@@ -30,6 +45,7 @@ export const Navigation = ({
       {children}
     </span>
     <span
+      title='Next slide'
       data-attr='slide-next-btn'
       onClick={clickNext}
       className='cursor-pointer relative inline-flex items-center px-2 py-1 rounded-md text-sm font-medium text-gray-500'

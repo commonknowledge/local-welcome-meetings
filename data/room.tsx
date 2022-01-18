@@ -1,17 +1,17 @@
-import { supabase } from './supabase'
-import { Room } from '../types/app'
 import { SupabaseRealtimePayload } from '@supabase/supabase-js'
+import qs from 'query-string'
 import {
+  createContext,
+  useCallback,
+  useContext,
   useEffect,
   useState,
-  createContext,
-  useContext,
-  useCallback,
 } from 'react'
-import { Page } from '@notionhq/client/build/src/api-types'
-import qs from 'query-string'
+import { Room } from '../types/app'
 import { usePrevious } from '../utils/hooks'
 import { NO_OP } from '../utils/utils'
+import { Page } from './slideshow'
+import { supabase } from './supabase'
 
 export async function getAllRooms(): Promise<Room[]> {
   const rooms = await supabase.from<Room>('room').select('*')
@@ -68,8 +68,9 @@ export const useRooms = (defaultValue: Room[] = []) => {
   return rooms
 }
 
-export function updateRoom(roomSlug: string, room: Partial<Room>) {
-  return supabase.from<Room>('room').update(room).eq('slug', roomSlug)
+export function updateRoom(roomSlug: string, newRoomValues: Partial<Room>) {
+  console.trace('updating the room', newRoomValues)
+  return supabase.from<Room>('room').update(newRoomValues).eq('slug', roomSlug)
 }
 
 export async function deleteRoom(id: string) {
@@ -124,24 +125,24 @@ export function RoomContextProvider({
     [slug],
   )
 
-  const loadSlides = useCallback(
-    async (slideshowName: string) => {
-      const res = await fetch(
-        qs.stringifyUrl({ url: '/api/slides', query: { slideshowName } }),
-      )
-      const { slides: newSlides } = await res.json()
-      if (!newSlides) return
+  const loadSlides = useCallback(async (slideshowName: string) => {
+    const res = await fetch(
+      qs.stringifyUrl({ url: '/api/slides', query: { slideshowName } }),
+    )
+    const { slides: newSlides } = await res.json()
+    if (newSlides != null) {
       setSlides(newSlides)
-      _updateRoom({ currentSlideIndex: 0 })
-    },
-    [_updateRoom],
-  )
+    }
+  }, [])
 
   const prevSlideshowName = usePrevious(room?.slideshowName)
 
   useEffect(
     function listenForSlideshowChanges() {
-      if (!!room?.slideshowName && room?.slideshowName !== prevSlideshowName) {
+      if (
+        room?.slideshowName != null &&
+        room?.slideshowName !== prevSlideshowName
+      ) {
         loadSlides(room?.slideshowName)
       }
     },

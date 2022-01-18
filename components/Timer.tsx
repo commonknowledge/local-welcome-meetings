@@ -38,6 +38,20 @@ export function Timer() {
   )
 }
 
+type ColorHex = `#${string}`
+const adhdBlue: ColorHex = theme`colors.adhdBlue`
+const red: ColorHex = theme`colors.red.600`
+const white = '#fff'
+
+const redWhiteFlash = (secondsLength: number): Array<ColorHex> =>
+  new Array(secondsLength * 2 + 1)
+    .fill(undefined)
+    .map((_, i) => (i % 2 === 0 ? red : white))
+const flashTimes = (secondsLength: number) =>
+  new Array(secondsLength * 2 + 2)
+    .fill(undefined)
+    .map((_, i) => secondsLength + 0.5 - i * 0.5)
+
 export function TimerComponent({
   updateRoom,
   isControllable,
@@ -97,13 +111,6 @@ export function TimerComponent({
     resetTimer()
   }, [resetTimer])
 
-  function sd(seconds: number, duration: number) {
-    return Math.min(
-      1,
-      Math.max(0, Math.abs(Math.min(duration, seconds) / duration)),
-    )
-  }
-
   return (
     <>
       <CountdownCircleTimer
@@ -116,35 +123,8 @@ export function TimerComponent({
         initialRemainingTime={isPlaying ? remainingSeconds : room.timerDuration}
         duration={room.timerDuration}
         size={isMobile ? 160 : 175}
-        colors={[
-          // [theme`colors.adhdDarkPurple`, sd(0.5, room.timerDuration)],
-          [
-            theme`colors.adhdBlue`,
-            sd(room.timerDuration - 10.5, room.timerDuration),
-          ],
-          [theme`colors.adhdBlue`, sd(0.5, room.timerDuration)],
-          // 10 second countdown
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-          [theme`colors.red.600`, sd(0.5, room.timerDuration)],
-          ['#FFFFFF', sd(0.5, room.timerDuration)],
-        ]}
+        colors={[adhdBlue, adhdBlue, ...redWhiteFlash(10)]}
+        colorsTime={[room.timerDuration, ...flashTimes(10)] as any}
         trailColor={theme`colors.adhdDarkPurple`}
         onComplete={onTimerComplete}
         strokeWidth={20}

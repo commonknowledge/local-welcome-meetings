@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import assert from 'assert'
-import { getSlides } from '../../data/slideshow'
-import { Page } from '@notionhq/client/build/src/api-types'
+import { getSlides, Page } from '../../data/slideshow'
 import { withSentry } from '@sentry/nextjs'
 
 async function handler(

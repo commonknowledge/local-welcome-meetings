@@ -1,9 +1,8 @@
-import { Page } from '@notionhq/client/build/src/api-types'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { Meeting } from '../components/Meeting'
 import { getRoomBySlug, RoomContextProvider } from '../data/room'
-import { getSlides } from '../data/slideshow'
+import { getSlides, Page } from '../data/slideshow'
 import { Room } from '../types/app'
 
 type IProps = {

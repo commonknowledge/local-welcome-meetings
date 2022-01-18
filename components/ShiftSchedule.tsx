@@ -75,7 +75,7 @@ export function SubscribeToCalendarDialog({
   onClose,
 }: {
   open: boolean
-  onClose: NO_OP
+  onClose: () => void
 }) {
   const user = useUser()
   const calendarURL = isClient
