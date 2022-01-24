@@ -69,7 +69,6 @@ export const useRooms = (defaultValue: Room[] = []) => {
 }
 
 export function updateRoom(roomSlug: string, newRoomValues: Partial<Room>) {
-  console.trace('updating the room', newRoomValues)
   return supabase.from<Room>('room').update(newRoomValues).eq('slug', roomSlug)
 }
 

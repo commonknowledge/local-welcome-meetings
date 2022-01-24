@@ -139,7 +139,7 @@ export interface paths {
           /** Notion ID. */
           currentSlideIndex?: parameters['rowFilter.room.currentSlideIndex']
           timerState?: parameters['rowFilter.room.timerState']
-          timerStartTime?: parameters['rowFilter.room.timerStartTime']
+          timerEndTimeUTC?: parameters['rowFilter.room.timerEndTimeUTC']
           timerDuration?: parameters['rowFilter.room.timerDuration']
           wherebyMeetingId?: parameters['rowFilter.room.wherebyMeetingId']
           wherebyStartDate?: parameters['rowFilter.room.wherebyStartDate']
@@ -208,7 +208,7 @@ export interface paths {
           /** Notion ID. */
           currentSlideIndex?: parameters['rowFilter.room.currentSlideIndex']
           timerState?: parameters['rowFilter.room.timerState']
-          timerStartTime?: parameters['rowFilter.room.timerStartTime']
+          timerEndTimeUTC?: parameters['rowFilter.room.timerEndTimeUTC']
           timerDuration?: parameters['rowFilter.room.timerDuration']
           wherebyMeetingId?: parameters['rowFilter.room.wherebyMeetingId']
           wherebyStartDate?: parameters['rowFilter.room.wherebyStartDate']
@@ -241,7 +241,7 @@ export interface paths {
           /** Notion ID. */
           currentSlideIndex?: parameters['rowFilter.room.currentSlideIndex']
           timerState?: parameters['rowFilter.room.timerState']
-          timerStartTime?: parameters['rowFilter.room.timerStartTime']
+          timerEndTimeUTC?: parameters['rowFilter.room.timerEndTimeUTC']
           timerDuration?: parameters['rowFilter.room.timerDuration']
           wherebyMeetingId?: parameters['rowFilter.room.wherebyMeetingId']
           wherebyStartDate?: parameters['rowFilter.room.wherebyStartDate']
@@ -981,9 +981,9 @@ export interface definitions {
      * Format: timestamp with time zone
      * @default now()
      */
-    timerStartTime: string
+    timerEndTimeUTC?: string
     /** Format: bigint */
-    timerDuration: number
+    timerDuration?: number
     /** Format: text */
     wherebyMeetingId?: string
     /** Format: timestamp with time zone */
@@ -1211,7 +1211,7 @@ export interface parameters {
   /** Format: text */
   'rowFilter.room.timerState': string
   /** Format: timestamp with time zone */
-  'rowFilter.room.timerStartTime': string
+  'rowFilter.room.timerEndTimeUTC': string
   /** Format: bigint */
   'rowFilter.room.timerDuration': string
   /** Format: text */
