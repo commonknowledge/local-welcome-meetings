@@ -8,7 +8,12 @@ import { useEffect } from 'react'
 import qs from 'query-string'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  usePostHog(process.env.NEXT_PUBLIC_POSTHOG_API_KEY as string, {
+  const { NEXT_PUBLIC_POSTHOG_API_KEY } = process.env
+  if (NEXT_PUBLIC_POSTHOG_API_KEY == null) {
+    throw new Error(`NEXT_PUBLIC_POSTHOG_API_KEY is missing in env variables`)
+  }
+
+  usePostHog(NEXT_PUBLIC_POSTHOG_API_KEY, {
     api_host: 'https://app.posthog.com',
     loaded: (posthog) => {
       if (process.env.NODE_ENV === 'development') {
