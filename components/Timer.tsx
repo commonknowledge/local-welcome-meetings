@@ -1,8 +1,9 @@
 import { addSeconds, differenceInMilliseconds, startOfDay } from 'date-fns'
 import { format } from 'date-fns-tz'
+import parseDuration from 'parse-duration'
 import React, { useMemo } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-import { useTimeout } from 'rooks'
+import { useTimeoutWhen } from 'rooks'
 import { theme } from 'twin.macro'
 import { useUser } from '../data/auth'
 import { IRoomContext, useRoom } from '../data/room'
@@ -10,6 +11,7 @@ import { useServerTime } from '../data/time'
 import { down, useMediaQuery } from '../styles/screens'
 import { Room } from '../types/app'
 import { Loading } from './Layout'
+import { SetCustomTime } from './SetCustomTime'
 
 export function Timer() {
   const { profile } = useUser()
@@ -23,15 +25,6 @@ export function Timer() {
       room={room}
       updateRoom={updateRoom}
       isControllable={profile?.canLeadSessions ?? false}
-      durations={[
-        { duration: 60, label: '1 min', className: 'text-xs text-opacity-80' },
-        { duration: 90, label: '1:30', className: 'text-base font-bold' },
-        {
-          duration: 30,
-          label: '30 secs',
-          className: 'text-xs text-opacity-80',
-        },
-      ]}
     />
   )
 }
@@ -54,22 +47,26 @@ interface TimerComponentProps {
   isControllable: boolean
   updateRoom: IRoomContext['updateRoom']
   room: Room
-  durations: Array<{ duration: number; label: string; className?: string }>
 }
 
 export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
   updateRoom,
   isControllable,
   room: { timerState, timerEndTimeUTC, timerDuration },
-  durations,
 }) => {
   const isPlaying = timerState === 'playing'
 
-  const { start, clear } = useTimeout(() => {
-    updateRoom({
-      timerState: 'stopped',
-    })
-  }, 5000)
+  const [start, setStart] = React.useState(false)
+
+  useTimeoutWhen(
+    () => {
+      updateRoom({
+        timerState: 'stopped',
+      })
+    },
+    5000,
+    start,
+  )
 
   const isMobile = useMediaQuery(down('lg'))
 
@@ -79,12 +76,12 @@ export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
       timerEndTimeUTC: undefined,
       timerDuration: undefined,
     })
-    start()
-  }, [start, updateRoom])
+    setStart(true)
+  }, [updateRoom])
 
   const setTimer = React.useCallback(
     (timerDurationSeconds: number) => {
-      clear()
+      setStart(false)
       updateRoom({
         timerState: 'playing',
         timerEndTimeUTC: addSeconds(
@@ -94,7 +91,7 @@ export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
         timerDuration: timerDurationSeconds,
       })
     },
-    [clear, updateRoom],
+    [updateRoom],
   )
 
   const secondsRemaining = useMemo(
@@ -151,17 +148,36 @@ export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
               case 'stopped': {
                 return (
                   isControllable && (
-                    <div className='space-y-1'>
-                      {durations.map(({ duration, label, className }) => (
-                        <div
-                          data-attr={`timer-start-${duration}`}
-                          key={label}
-                          onClick={() => setTimer(duration)}
-                          className={`${className} uppercase font-semibold cursor-pointer text-adhdBlue hover:text-red-600 bg-adhdDarkPurple rounded-lg p-1`}
-                        >
-                          {label}
-                        </div>
-                      ))}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        rowGap: 3,
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          columnGap: 3,
+                        }}
+                      >
+                        {['30s', '60s', '90s'].map((duration) => (
+                          <div
+                            key={duration}
+                            data-attr={`timer-start-${duration}`}
+                            onClick={() => {
+                              setTimer(parseDuration(duration) / 1000)
+                            }}
+                            style={{ boxShadow: '0 0 0 1px #fff3 inset' }}
+                            className={`text-xs text-opacity-80 font-semibold cursor-pointer text-adhdBlue hover:text-red-600 bg-adhdDarkPurple rounded-lg p-1`}
+                          >
+                            {duration}
+                          </div>
+                        ))}
+                      </div>
+                      <SetCustomTime setTimer={setTimer} />
                     </div>
                   )
                 )
