@@ -21,7 +21,6 @@ import {
 import { isClient } from '../styles/screens'
 import { ShiftExceptionType } from '../types/app'
 import { getTimezone } from '../utils/date'
-import { NO_OP } from '../utils/utils'
 import { ShiftAllocationEditor } from './ShiftPatterns'
 
 export function ShiftSchedule() {
