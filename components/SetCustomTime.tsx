@@ -35,6 +35,7 @@ export const SetCustomTime: React.FunctionComponent<SetCustomTimeProps> = ({
         className={`text-xs text-opacity-80 uppercase font-semibold text-adhdBlue bg-adhdDarkPurple rounded-lg p-1`}
       >
         <input
+          className='placeholder-gray-400'
           placeholder='0h0m0s'
           style={{
             height: 20,
