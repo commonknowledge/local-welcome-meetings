@@ -105,6 +105,12 @@ export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
     [timerEndTimeUTC],
   )
 
+  React.useEffect(() => {
+    if (start === false && timerState === 'hidden') {
+      setStart(true)
+    }
+  }, [start, timerState])
+
   return (
     <CountdownCircleTimer
       key={JSON.stringify([timerState, timerEndTimeUTC, timerDuration])}
@@ -146,40 +152,40 @@ export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
                 )
               }
               case 'stopped': {
-                return (
-                  isControllable && (
+                return isControllable ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      rowGap: 3,
+                    }}
+                  >
                     <div
                       style={{
                         display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        rowGap: 3,
+                        flexDirection: 'row',
+                        columnGap: 3,
                       }}
                     >
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          columnGap: 3,
-                        }}
-                      >
-                        {['30s', '60s', '90s'].map((duration) => (
-                          <div
-                            key={duration}
-                            data-attr={`timer-start-${duration}`}
-                            onClick={() => {
-                              setTimer(parseDuration(duration) / 1000)
-                            }}
-                            style={{ boxShadow: '0 0 0 1px #fff3 inset' }}
-                            className={`text-xs text-opacity-80 font-semibold cursor-pointer text-adhdBlue hover:text-red-600 bg-adhdDarkPurple rounded-lg p-1`}
-                          >
-                            {duration}
-                          </div>
-                        ))}
-                      </div>
-                      <SetCustomTime setTimer={setTimer} />
+                      {['30s', '60s', '90s'].map((duration) => (
+                        <div
+                          key={duration}
+                          data-attr={`timer-start-${duration}`}
+                          onClick={() => {
+                            setTimer(parseDuration(duration) / 1000)
+                          }}
+                          style={{ boxShadow: '0 0 0 1px #fff3 inset' }}
+                          className={`text-xs text-opacity-80 font-semibold cursor-pointer text-adhdBlue hover:text-red-600 bg-adhdDarkPurple rounded-lg p-1`}
+                        >
+                          {duration}
+                        </div>
+                      ))}
                     </div>
-                  )
+                    <SetCustomTime setTimer={setTimer} />
+                  </div>
+                ) : (
+                  <CurrentTime remainingTime={remainingTime} />
                 )
               }
             }
