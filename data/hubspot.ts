@@ -3,16 +3,23 @@ import { formatISO, startOfDay } from 'date-fns'
 import env from 'env-var'
 import qs from 'query-string'
 
-const HUBSPOT_API_KEY = env.get('HUBSPOT_API_KEY').required().asString()
+const HUBSPOT_PRIVATE_APP_TOKEN = env
+  .get('HUBSPOT_PRIVATE_APP_TOKEN')
+  .required()
+  .asString()
 
-export const hubspotV3 = new Client({ apiKey: HUBSPOT_API_KEY })
+export const hubspotV3 = new Client({ accessToken: HUBSPOT_PRIVATE_APP_TOKEN })
 
 export const hubspotV1 = async (path: string) => {
   const url = qs.stringifyUrl({
     url: `https://api.hubapi.com/contacts/v1${path}`,
-    query: { hapikey: HUBSPOT_API_KEY },
   })
-  const res = await fetch(url)
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${HUBSPOT_PRIVATE_APP_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  })
   return await res.json()
 }
 
