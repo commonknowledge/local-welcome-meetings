@@ -56,8 +56,8 @@ export async function getUserProfileForEmail(
   return res.data?.[0] || null
 }
 
-export function getAuthCookie(event: AuthChangeEvent, session: Session | null) {
-  return fetch('/api/auth', {
+async function getAuthCookie(event: AuthChangeEvent, session: Session | null) {
+  return await fetch('/api/auth', {
     method: 'POST',
     headers: new Headers({ 'Content-Type': 'application/json' }),
     credentials: 'same-origin',
@@ -65,8 +65,7 @@ export function getAuthCookie(event: AuthChangeEvent, session: Session | null) {
   }).then((res) => res.json())
 }
 
-export function subscribeToRoomPermissions(
-  id: string,
+function subscribeToRoomPermissions(
   callback: (payload: SupabaseRealtimePayload<RoomPermission>) => void,
 ) {
   const subscription = supabase
@@ -77,7 +76,7 @@ export function subscribeToRoomPermissions(
   return () => supabase.removeSubscription(subscription)
 }
 
-export function getRoomPermissions(profileId: string) {
+function getRoomPermissions(profileId: string) {
   return supabase
     .from<RoomPermission>('roompermission')
     .select('*')
@@ -153,7 +152,6 @@ export function UserContextProvider({ children, ...props }: any) {
       return NO_OP
     } else {
       const unsubPermissions = subscribeToRoomPermissions(
-        userProfile.id,
         () => userProfile?.id && updateRoomPermissions(userProfile.id),
       )
 
@@ -203,26 +201,26 @@ export function UserContextProvider({ children, ...props }: any) {
     if (routing) router.push('/user')
   }
 
-  const isLoggedIn = !!user && !!session
+  const isLoggedIn = user != null && session != null
   const [isOpen, setIsOpen] = useState(false)
   const signIn = () => setIsOpen(true)
   useEffect(() => {
     setIsOpen(false)
   }, [isLoggedIn])
 
+  const value = {
+    user,
+    isLoggedIn,
+    profile: userProfile,
+    session,
+    signOut,
+    signIn,
+    permissions,
+  }
+  console.log({ ...value, profile: { ...value.profile } })
+
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        isLoggedIn,
-        profile: userProfile,
-        session,
-        signOut,
-        signIn,
-        permissions,
-      }}
-      {...props}
-    >
+    <UserContext.Provider value={value} {...props}>
       {children}
       <AuthModal {...{ isOpen, setIsOpen }} />
     </UserContext.Provider>

@@ -16,16 +16,15 @@ import { SetCustomTime } from './SetCustomTime'
 export function Timer() {
   const { profile } = useUser()
   const { room, updateRoom } = useRoom()
-  const serverTime = useServerTime()
 
-  if (!room || !serverTime.connectionEstablished) return <Loading />
-
-  return (
+  return room != null && profile?.canLeadSessions !== null ? (
     <TimerComponent
       room={room}
       updateRoom={updateRoom}
       isControllable={profile?.canLeadSessions ?? false}
     />
+  ) : (
+    <Loading />
   )
 }
 
@@ -71,13 +70,15 @@ export const TimerComponent: React.FunctionComponent<TimerComponentProps> = ({
   const isMobile = useMediaQuery(down('lg'))
 
   const onComplete = React.useCallback(() => {
-    updateRoom({
-      timerState: 'hidden',
-      timerEndTimeUTC: undefined,
-      timerDuration: undefined,
-    })
-    setStart(true)
-  }, [updateRoom])
+    if (isControllable) {
+      updateRoom({
+        timerState: 'hidden',
+        timerEndTimeUTC: undefined,
+        timerDuration: undefined,
+      })
+      setStart(true)
+    }
+  }, [isControllable, updateRoom])
 
   const setTimer = React.useCallback(
     (timerDurationSeconds: number) => {
